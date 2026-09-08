@@ -6,12 +6,16 @@ export const metadata: Metadata = {
   description: 'Live real-time cinematic availability presentation for Balmandaisa by DAC. Full-screen automated showcase with Google Sheets live sync.',
   icons: {
     icon: [
-      { url: '/branding/balmandaisa-logo.png' },
-      { url: '/branding/balmandaisa-logo.png', sizes: '32x32', type: 'image/png' },
-      { url: '/branding/balmandaisa-logo.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.ico' },
+      { url: '/branding/balmandaisa-icon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/branding/balmandaisa-icon.png', sizes: '16x16', type: 'image/png' },
+      { url: '/branding/balmandaisa-icon.png', sizes: '192x192', type: 'image/png' },
+      { url: '/branding/balmandaisa-icon.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/branding/balmandaisa-logo.png',
-    apple: '/branding/balmandaisa-logo.png',
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
 };
 

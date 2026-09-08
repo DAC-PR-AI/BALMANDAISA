@@ -65,10 +65,10 @@ export const UnitPin: React.FC<UnitPinProps> = ({
           isAvailable
             ? 'bg-[#031c13]/95 text-emerald-300 border border-emerald-400/90 shadow-[0_1px_8px_rgba(16,185,129,0.35)] hover:bg-[#073324] hover:border-emerald-300 hover:scale-110'
             : isBooked
-            ? 'bg-[#0b0e14]/95 text-slate-300 border border-slate-600/80 hover:bg-[#141c2c] hover:text-white hover:scale-105'
+            ? 'bg-[#2b060d]/95 text-rose-300 border border-rose-500/90 shadow-[0_1px_8px_rgba(244,63,94,0.35)] hover:bg-[#3d0a13] hover:border-rose-400 hover:scale-110'
             : isBlocked
-            ? 'bg-[#221203]/95 text-amber-200 border border-amber-500/85 hover:bg-[#381f07] hover:scale-105'
-            : 'bg-[#0b0e14]/95 text-slate-400 border border-slate-700'
+            ? 'bg-[#281504]/95 text-amber-300 border border-amber-500/90 shadow-[0_1px_8px_rgba(245,158,11,0.35)] hover:bg-[#381f07] hover:border-amber-400 hover:scale-110'
+            : 'bg-[#0e1118]/95 text-slate-400 border border-slate-700 hover:bg-[#181d28] hover:text-slate-200 hover:scale-105'
         } ${
           isHighlighted
             ? 'scale-125 z-40 ring-2 ring-[#c5a869] border-[#c5a869] bg-black text-white'
@@ -81,10 +81,10 @@ export const UnitPin: React.FC<UnitPinProps> = ({
             isAvailable
               ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,1)] animate-pulse'
               : isBooked
-              ? 'bg-slate-500'
+              ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,1)]'
               : isBlocked
-              ? 'bg-amber-400 shadow-[0_0_4px_rgba(251,191,36,0.8)]'
-              : 'bg-slate-600'
+              ? 'bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,1)]'
+              : 'bg-slate-500'
           }`}
         />
         <span className="font-bold tracking-wider">
@@ -118,8 +118,10 @@ export const UnitPin: React.FC<UnitPinProps> = ({
               isAvailable
                 ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
                 : isBooked
-                ? 'bg-slate-900 text-slate-400 border border-slate-700/40'
-                : 'bg-amber-950 text-amber-300 border border-amber-500/40'
+                ? 'bg-rose-950 text-rose-300 border border-rose-500/40'
+                : isBlocked
+                ? 'bg-amber-950 text-amber-300 border border-amber-500/40'
+                : 'bg-slate-900 text-slate-400 border border-slate-700/40'
             }`}
           >
             {unit.status.replace(/_/g, ' ')}

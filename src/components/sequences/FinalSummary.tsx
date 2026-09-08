@@ -69,8 +69,8 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
           </div>
           <span className="text-white/15">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-slate-400 uppercase text-[10px]">Booked</span>
-            <span className="text-lg font-light text-slate-300">
+            <span className="text-rose-400/80 uppercase text-[10px]">Booked</span>
+            <span className="text-lg font-light text-rose-400">
               <AnimatedCounter value={overallStats.booked} />
             </span>
           </div>
@@ -108,7 +108,7 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
                   <span className="text-emerald-400">
                     {stats.available} <span className="text-[8px] text-white/30 uppercase">Av</span>
                   </span>
-                  <span className="text-slate-400 text-[10px]">
+                  <span className="text-rose-400/90 text-[10px]">
                     {stats.booked} <span className="text-[8px] text-white/30 uppercase">Bk</span>
                   </span>
                 </div>

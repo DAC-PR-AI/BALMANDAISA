@@ -67,7 +67,7 @@ export async function GET() {
 
 async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
   const sheetId = process.env.GOOGLE_SHEET_ID || SHEET_CONFIG.sheetId;
-  const sheetName = process.env.GOOGLE_SHEET_NAME || 'Sheet1';
+  const sheetName = process.env.GOOGLE_SHEET_NAME || SHEET_CONFIG.tabName || 'Stock';
 
   let rows: string[][] = [];
 
@@ -213,7 +213,26 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
 
 function mapRowsToUnits(rows: string[][]): Record<string, Unit> {
   const units: Record<string, Unit> = {};
-  const cols = SHEET_CONFIG.columns;
+  if (rows.length < 2) return units;
+
+  const headerRow = rows[0].map(h => (h || '').trim().toUpperCase());
+  const findCol = (predicate: (h: string) => boolean, defaultIdx: number) => {
+    const idx = headerRow.findIndex(predicate);
+    return idx !== -1 ? idx : defaultIdx;
+  };
+
+  const cols = {
+    sno: findCol(h => h.includes('S.NO') || h === 'SNO', SHEET_CONFIG.columns.sno),
+    unitNo: findCol(h => h.includes('UNIT'), SHEET_CONFIG.columns.unitNo),
+    facing: findCol(h => h.includes('FACING'), SHEET_CONFIG.columns.facing),
+    type: findCol(h => h.includes('TYPE'), SHEET_CONFIG.columns.type),
+    saleableArea: findCol(h => h.includes('SALEABLE') || h.includes('AREA'), SHEET_CONFIG.columns.saleableArea),
+    uds: findCol(h => h.includes('UDS'), SHEET_CONFIG.columns.uds),
+    terrace: findCol(h => h.includes('TERRACE'), SHEET_CONFIG.columns.terrace),
+    carpark: findCol(h => h.includes('CAR'), SHEET_CONFIG.columns.carpark),
+    totalCost: findCol(h => h.includes('TOTAL') || h.includes('COST'), SHEET_CONFIG.columns.totalCost),
+    availability: findCol(h => h.includes('AVAIL'), SHEET_CONFIG.columns.availability),
+  };
 
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];

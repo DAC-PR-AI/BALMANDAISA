@@ -8,9 +8,9 @@ export type UnitStatus = 'AVAILABLE' | 'BOOKED' | 'BLOCKED' | 'NOT_FOR_SALE';
 /** Normalized status from raw sheet text */
 export function normalizeStatus(raw: string): UnitStatus {
   const s = (raw || '').trim().toUpperCase();
-  if (s === 'AVAILABLE') return 'AVAILABLE';
-  if (s === 'BOOKED') return 'BOOKED';
-  if (s === 'BLOCKED') return 'BLOCKED';
+  if (s === 'AVAILABLE' || s === 'AVL') return 'AVAILABLE';
+  if (s === 'BOOKED' || s === 'SOLD') return 'BOOKED';
+  if (s.includes('BLOCK')) return 'BLOCKED'; // Matches 'BLOCKED', 'LO-BLOCKED', 'MGMT BLOCKED'
   // "NOT FOR SALE NOW", "NOT FOR SALE", "NFS", etc.
   return 'NOT_FOR_SALE';
 }

@@ -93,6 +93,19 @@ export const FloorStatsCard: React.FC<FloorStatsCardProps> = ({
               <span className="text-xl font-serif font-bold text-[#D4AF37]">
                 Unit {selectedUnit.id}
               </span>
+              <span
+                className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold uppercase tracking-wider border ${
+                  selectedUnit.status === 'AVAILABLE'
+                    ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50'
+                    : selectedUnit.status === 'BOOKED'
+                    ? 'bg-rose-950 text-rose-300 border-rose-500/50'
+                    : selectedUnit.status === 'BLOCKED'
+                    ? 'bg-amber-950 text-amber-300 border-amber-500/50'
+                    : 'bg-slate-900 text-slate-400 border-slate-700/50'
+                }`}
+              >
+                {selectedUnit.status.replace(/_/g, ' ')}
+              </span>
               {selectedUnit.isDuplex && (
                 <span className="text-[9px] bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40 px-1.5 py-0.5 rounded font-bold uppercase">
                   Duplex

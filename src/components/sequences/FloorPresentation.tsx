@@ -55,7 +55,7 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
           <span className="text-white/15">/</span>
           <div className="flex items-baseline gap-2">
             <span className="text-white/40 uppercase tracking-widest text-[9px]">Booked</span>
-            <span className="text-slate-300 font-semibold text-sm">
+            <span className="text-rose-400 font-semibold text-sm">
               <AnimatedCounter value={summary.booked} />
             </span>
           </div>
@@ -94,6 +94,19 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
             <div className="flex items-baseline gap-2">
               <span className="text-xs text-[#c5a869] font-medium tracking-widest uppercase">
                 UNIT {selectedUnit.id}
+              </span>
+              <span
+                className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold uppercase tracking-wider border ${
+                  selectedUnit.status === 'AVAILABLE'
+                    ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50'
+                    : selectedUnit.status === 'BOOKED'
+                    ? 'bg-rose-950 text-rose-300 border-rose-500/50'
+                    : selectedUnit.status === 'BLOCKED'
+                    ? 'bg-amber-950 text-amber-300 border-amber-500/50'
+                    : 'bg-slate-900 text-slate-400 border-slate-700/50'
+                }`}
+              >
+                {selectedUnit.status.replace(/_/g, ' ')}
               </span>
               {selectedUnit.isDuplex && (
                 <span className="text-[9px] uppercase tracking-widest text-white/60 font-mono">

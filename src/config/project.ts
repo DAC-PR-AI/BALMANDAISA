@@ -13,6 +13,7 @@ export const PROJECT = {
 
 export const SHEET_CONFIG = {
   sheetId: '11jGZiv2llSFucy9DdfPIiP5OeWYz0ZBQd1u87xwbhXk',
+  tabName: 'Stock',
   // Column indices (0-based) from the raw sheet
   columns: {
     sno: 0,

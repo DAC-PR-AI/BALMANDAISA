@@ -71,27 +71,55 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
 
   let rows: string[][] = [];
 
-  // METHOD 1: Complete JSON Service Account Key string in Environment Variable (Vercel standard)
-  const serviceAccountKeyJson = process.env.GOOGLE_SERVICE_ACCOUNT_KEY || process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (serviceAccountKeyJson) {
+  const DEFAULT_CLIENT_EMAIL = 'prod-416@adroit-nuance-501711-f5.iam.gserviceaccount.com';
+
+  // METHOD 1: JSON Service Account Key (or raw private key) in GOOGLE_SERVICE_ACCOUNT_KEY / GOOGLE_SERVICE_ACCOUNT_JSON
+  const rawKey = (process.env.GOOGLE_SERVICE_ACCOUNT_KEY || process.env.GOOGLE_SERVICE_ACCOUNT_JSON || '').trim();
+  if (rawKey) {
     try {
-      const credentials = JSON.parse(serviceAccountKeyJson);
-      const auth = new GoogleAuth({
-        credentials,
-        scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-      });
-      const client = await auth.getClient();
-      const tokenResponse = await client.getAccessToken();
-      const token = tokenResponse.token;
-      if (token) {
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}`;
-        const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
-          next: { revalidate: 10 },
+      let credentials: { client_email?: string; private_key?: string } = {};
+
+      // Check if it's wrapped in single quotes
+      let cleanKey = rawKey;
+      if ((cleanKey.startsWith("'") && cleanKey.endsWith("'")) || (cleanKey.startsWith('"') && cleanKey.endsWith('"') && cleanKey.includes('{'))) {
+        cleanKey = cleanKey.slice(1, -1);
+      }
+
+      if (cleanKey.startsWith('{')) {
+        credentials = JSON.parse(cleanKey);
+      } else if (cleanKey.includes('BEGIN PRIVATE KEY')) {
+        credentials = {
+          private_key: cleanKey.replace(/\\n/g, '\n'),
+          client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL || DEFAULT_CLIENT_EMAIL,
+        };
+      }
+
+      // Ensure client_email is populated
+      if (!credentials.client_email) {
+        credentials.client_email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL || DEFAULT_CLIENT_EMAIL;
+      }
+      if (credentials.private_key) {
+        credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+      }
+
+      if (credentials.client_email && credentials.private_key) {
+        const auth = new GoogleAuth({
+          credentials,
+          scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
         });
-        if (res.ok) {
-          const json = await res.json();
-          rows = json.values || [];
+        const client = await auth.getClient();
+        const tokenResponse = await client.getAccessToken();
+        const token = tokenResponse.token;
+        if (token) {
+          const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}`;
+          const res = await fetch(url, {
+            headers: { Authorization: `Bearer ${token}` },
+            next: { revalidate: 10 },
+          });
+          if (res.ok) {
+            const json = await res.json();
+            rows = json.values || [];
+          }
         }
       }
     } catch (err) {
@@ -101,10 +129,10 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
 
   // METHOD 2: Separate Client Email & Private Key in Environment Variables
   if (rows.length === 0) {
-    const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL;
-    const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+    const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL || DEFAULT_CLIENT_EMAIL;
+    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
 
-    if (clientEmail && privateKey) {
+    if (privateKey) {
       try {
         const auth = new GoogleAuth({
           credentials: {

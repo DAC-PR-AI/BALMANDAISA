@@ -1,283 +1,119 @@
 // ============================================================
-// BALMANDAISA — Floor Geometry (Pin Positions)
+// BALMANDAISA — Floor Geometry (Adaptive Non-Colliding Anchors)
 // ============================================================
-// Ported from the existing booking app's GEOMETRY constant.
-// Each unit's position is defined as a percentage (xpct, ypct)
-// of the floor plan image dimensions.
+// Each unit marker is placed naturally at its apartment location,
+// aligned into clear pockets and clean spaces to ensure zero
+// interference with major architectural lines, walls, or text.
 
 import { FloorGeometry } from '@/types';
+
+// Standard 16-unit residential floor layout (Floors 2 to 12)
+const TYPICAL_FLOOR_UNITS = (floorNum: number) => {
+  const f = floorNum;
+  return {
+    [`${f}01`]: { xpct: 12.500, ypct: 91.500 }, // Unit 01 living/balcony clear pocket
+    [`${f}02`]: { xpct: 25.500, ypct: 91.500 }, // Unit 02 balcony clear pocket
+    [`${f}03`]: { xpct: 36.500, ypct: 91.500 }, // Unit 03 balcony clear pocket
+    [`${f}04`]: { xpct: 47.500, ypct: 91.500 }, // Unit 04 balcony clear pocket
+    [`${f}05`]: { xpct: 58.500, ypct: 91.500 }, // Unit 05 balcony clear pocket
+    [`${f}06`]: { xpct: 69.500, ypct: 91.500 }, // Unit 06 balcony clear pocket
+    [`${f}07`]: { xpct: 76.500, ypct: 56.500 }, // Unit 07 balcony clear pocket
+    [`${f}08`]: { xpct: 70.000, ypct: 10.500 }, // Unit 08 top balcony clear pocket
+    [`${f}09`]: { xpct: 58.500, ypct: 10.500 }, // Unit 09 top balcony clear pocket
+    [`${f}10`]: { xpct: 57.500, ypct: 43.500 }, // Unit 10 open void clear pocket
+    [`${f}11`]: { xpct: 55.500, ypct: 53.500 }, // Unit 11 courtyard clear pocket
+    [`${f}12`]: { xpct: 45.500, ypct: 53.500 }, // Unit 12 courtyard clear pocket
+    [`${f}13`]: { xpct: 32.000, ypct: 61.500 }, // Unit 13 living clear pocket
+    [`${f}14`]: { xpct: 37.500, ypct: 28.500 }, // Unit 14 upper lightwell clear pocket
+    [`${f}15`]: { xpct: 14.500, ypct: 16.000 }, // Unit 15 top-left clear pocket
+    [`${f}16`]: { xpct: 10.500, ypct: 62.500 }, // Unit 16 living/balcony clear pocket
+  };
+};
 
 export const FLOOR_GEOMETRY: Record<string, FloorGeometry> = {
   '1': {
     planKey: 'floor-01',
     units: {
-      '101': { xpct: 24.464, ypct: 87.867 },
-      '102': { xpct: 35.047, ypct: 87.867 },
-      '103': { xpct: 45.492, ypct: 87.867 },
-      '104': { xpct: 55.937, ypct: 87.867 },
-      '105': { xpct: 66.383, ypct: 87.867 },
-      '106': { xpct: 76.416, ypct: 42.437 },
-      '107': { xpct: 70.368, ypct: 3.264 },
-      '108': { xpct: 58.824, ypct: 3.264 },
-      '109': { xpct: 53.189, ypct: 38.085 },
-      '110': { xpct: 51.814, ypct: 46.790 },
-      '111': { xpct: 34.772, ypct: 45.974 },
-      '112': { xpct: 36.971, ypct: 18.498 },
+      '101': { xpct: 25.500, ypct: 91.500 },
+      '102': { xpct: 36.500, ypct: 91.500 },
+      '103': { xpct: 47.500, ypct: 91.500 },
+      '104': { xpct: 58.500, ypct: 91.500 },
+      '105': { xpct: 69.500, ypct: 91.500 },
+      '106': { xpct: 76.500, ypct: 43.000 },
+      '107': { xpct: 70.000, ypct: 10.500 },
+      '108': { xpct: 58.500, ypct: 10.500 },
+      '109': { xpct: 54.500, ypct: 38.500 },
+      '110': { xpct: 51.500, ypct: 47.500 },
+      '111': { xpct: 32.000, ypct: 61.500 },
+      '112': { xpct: 37.500, ypct: 28.500 },
     },
   },
   '2': {
     planKey: 'floor-02',
-    units: {
-      '201': { xpct: 10.995, ypct: 98.749 },
-      '202': { xpct: 27.075, ypct: 98.749 },
-      '203': { xpct: 38.758, ypct: 98.749 },
-      '204': { xpct: 50.302, ypct: 98.749 },
-      '205': { xpct: 61.985, ypct: 98.749 },
-      '206': { xpct: 73.804, ypct: 98.749 },
-      '207': { xpct: 75.866, ypct: 54.951 },
-      '208': { xpct: 75.179, ypct: 6.529 },
-      '209': { xpct: 62.397, ypct: 5.713 },
-      '210': { xpct: 57.312, ypct: 42.437 },
-      '211': { xpct: 56.350, ypct: 51.959 },
-      '212': { xpct: 45.767, ypct: 51.959 },
-      '213': { xpct: 38.483, ypct: 50.598 },
-      '214': { xpct: 40.957, ypct: 27.476 },
-      '215': { xpct: 18.966, ypct: 7.617 },
-      '216': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(2),
   },
   '3': {
     planKey: 'floor-03',
-    units: {
-      '301': { xpct: 10.995, ypct: 98.749 },
-      '302': { xpct: 27.075, ypct: 98.749 },
-      '303': { xpct: 38.758, ypct: 98.749 },
-      '304': { xpct: 50.302, ypct: 98.749 },
-      '305': { xpct: 61.985, ypct: 98.749 },
-      '306': { xpct: 73.804, ypct: 98.749 },
-      '307': { xpct: 75.866, ypct: 54.951 },
-      '308': { xpct: 75.179, ypct: 6.529 },
-      '309': { xpct: 62.397, ypct: 5.713 },
-      '310': { xpct: 57.312, ypct: 42.437 },
-      '311': { xpct: 56.350, ypct: 51.959 },
-      '312': { xpct: 45.767, ypct: 51.959 },
-      '313': { xpct: 38.483, ypct: 50.598 },
-      '314': { xpct: 40.957, ypct: 27.476 },
-      '315': { xpct: 18.966, ypct: 7.617 },
-      '316': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(3),
   },
   '4': {
     planKey: 'floor-04',
-    units: {
-      '401': { xpct: 10.995, ypct: 98.749 },
-      '402': { xpct: 27.075, ypct: 98.749 },
-      '403': { xpct: 38.758, ypct: 98.749 },
-      '404': { xpct: 50.302, ypct: 98.749 },
-      '405': { xpct: 61.985, ypct: 98.749 },
-      '406': { xpct: 73.804, ypct: 98.749 },
-      '407': { xpct: 75.866, ypct: 54.951 },
-      '408': { xpct: 75.179, ypct: 6.529 },
-      '409': { xpct: 62.397, ypct: 5.713 },
-      '410': { xpct: 57.312, ypct: 42.437 },
-      '411': { xpct: 56.350, ypct: 51.959 },
-      '412': { xpct: 45.767, ypct: 51.959 },
-      '413': { xpct: 38.483, ypct: 50.598 },
-      '414': { xpct: 40.957, ypct: 27.476 },
-      '415': { xpct: 18.966, ypct: 7.617 },
-      '416': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(4),
   },
   '5': {
     planKey: 'floor-05',
-    units: {
-      '501': { xpct: 10.995, ypct: 98.749 },
-      '502': { xpct: 27.075, ypct: 98.749 },
-      '503': { xpct: 38.758, ypct: 98.749 },
-      '504': { xpct: 50.302, ypct: 98.749 },
-      '505': { xpct: 61.985, ypct: 98.749 },
-      '506': { xpct: 73.804, ypct: 98.749 },
-      '507': { xpct: 75.866, ypct: 54.951 },
-      '508': { xpct: 75.179, ypct: 6.529 },
-      '509': { xpct: 62.397, ypct: 5.713 },
-      '510': { xpct: 57.312, ypct: 42.437 },
-      '511': { xpct: 56.350, ypct: 51.959 },
-      '512': { xpct: 45.767, ypct: 51.959 },
-      '513': { xpct: 38.483, ypct: 50.598 },
-      '514': { xpct: 40.957, ypct: 27.476 },
-      '515': { xpct: 18.966, ypct: 7.617 },
-      '516': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(5),
   },
   '6': {
     planKey: 'floor-06',
-    units: {
-      '601': { xpct: 10.995, ypct: 98.749 },
-      '602': { xpct: 27.075, ypct: 98.749 },
-      '603': { xpct: 38.758, ypct: 98.749 },
-      '604': { xpct: 50.302, ypct: 98.749 },
-      '605': { xpct: 61.985, ypct: 98.749 },
-      '606': { xpct: 73.804, ypct: 98.749 },
-      '607': { xpct: 75.866, ypct: 54.951 },
-      '608': { xpct: 75.179, ypct: 6.529 },
-      '609': { xpct: 62.397, ypct: 5.713 },
-      '610': { xpct: 57.312, ypct: 42.437 },
-      '611': { xpct: 56.350, ypct: 51.959 },
-      '612': { xpct: 45.767, ypct: 51.959 },
-      '613': { xpct: 38.483, ypct: 50.598 },
-      '614': { xpct: 40.957, ypct: 27.476 },
-      '615': { xpct: 18.966, ypct: 7.617 },
-      '616': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(6),
   },
   '7': {
     planKey: 'floor-07',
-    units: {
-      '701': { xpct: 10.995, ypct: 98.749 },
-      '702': { xpct: 27.075, ypct: 98.749 },
-      '703': { xpct: 38.758, ypct: 98.749 },
-      '704': { xpct: 50.302, ypct: 98.749 },
-      '705': { xpct: 61.985, ypct: 98.749 },
-      '706': { xpct: 73.804, ypct: 98.749 },
-      '707': { xpct: 75.866, ypct: 54.951 },
-      '708': { xpct: 75.179, ypct: 6.529 },
-      '709': { xpct: 62.397, ypct: 5.713 },
-      '710': { xpct: 57.312, ypct: 42.437 },
-      '711': { xpct: 56.350, ypct: 51.959 },
-      '712': { xpct: 45.767, ypct: 51.959 },
-      '713': { xpct: 38.483, ypct: 50.598 },
-      '714': { xpct: 40.957, ypct: 27.476 },
-      '715': { xpct: 18.966, ypct: 7.617 },
-      '716': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(7),
   },
   '8': {
     planKey: 'floor-08',
-    units: {
-      '801': { xpct: 10.995, ypct: 98.749 },
-      '802': { xpct: 27.075, ypct: 98.749 },
-      '803': { xpct: 38.758, ypct: 98.749 },
-      '804': { xpct: 50.302, ypct: 98.749 },
-      '805': { xpct: 61.985, ypct: 98.749 },
-      '806': { xpct: 73.804, ypct: 98.749 },
-      '807': { xpct: 75.866, ypct: 54.951 },
-      '808': { xpct: 75.179, ypct: 6.529 },
-      '809': { xpct: 62.397, ypct: 5.713 },
-      '810': { xpct: 57.312, ypct: 42.437 },
-      '811': { xpct: 56.350, ypct: 51.959 },
-      '812': { xpct: 45.767, ypct: 51.959 },
-      '813': { xpct: 38.483, ypct: 50.598 },
-      '814': { xpct: 40.957, ypct: 27.476 },
-      '815': { xpct: 18.966, ypct: 7.617 },
-      '816': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(8),
   },
   '9': {
     planKey: 'floor-09',
-    units: {
-      '901': { xpct: 10.995, ypct: 98.749 },
-      '902': { xpct: 27.075, ypct: 98.749 },
-      '903': { xpct: 38.758, ypct: 98.749 },
-      '904': { xpct: 50.302, ypct: 98.749 },
-      '905': { xpct: 61.985, ypct: 98.749 },
-      '906': { xpct: 73.804, ypct: 98.749 },
-      '907': { xpct: 75.866, ypct: 54.951 },
-      '908': { xpct: 75.179, ypct: 6.529 },
-      '909': { xpct: 62.397, ypct: 5.713 },
-      '910': { xpct: 57.312, ypct: 42.437 },
-      '911': { xpct: 56.350, ypct: 51.959 },
-      '912': { xpct: 45.767, ypct: 51.959 },
-      '913': { xpct: 38.483, ypct: 50.598 },
-      '914': { xpct: 40.957, ypct: 27.476 },
-      '915': { xpct: 18.966, ypct: 7.617 },
-      '916': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(9),
   },
   '10': {
     planKey: 'floor-10',
-    units: {
-      '1001': { xpct: 10.995, ypct: 98.749 },
-      '1002': { xpct: 27.075, ypct: 98.749 },
-      '1003': { xpct: 38.758, ypct: 98.749 },
-      '1004': { xpct: 50.302, ypct: 98.749 },
-      '1005': { xpct: 61.985, ypct: 98.749 },
-      '1006': { xpct: 73.804, ypct: 98.749 },
-      '1007': { xpct: 75.866, ypct: 54.951 },
-      '1008': { xpct: 75.179, ypct: 6.529 },
-      '1009': { xpct: 62.397, ypct: 5.713 },
-      '1010': { xpct: 57.312, ypct: 42.437 },
-      '1011': { xpct: 56.350, ypct: 51.959 },
-      '1012': { xpct: 45.767, ypct: 51.959 },
-      '1013': { xpct: 38.483, ypct: 50.598 },
-      '1014': { xpct: 40.957, ypct: 27.476 },
-      '1015': { xpct: 18.966, ypct: 7.617 },
-      '1016': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(10),
   },
   '11': {
     planKey: 'floor-11',
-    units: {
-      '1101': { xpct: 10.995, ypct: 98.749 },
-      '1102': { xpct: 27.075, ypct: 98.749 },
-      '1103': { xpct: 38.758, ypct: 98.749 },
-      '1104': { xpct: 50.302, ypct: 98.749 },
-      '1105': { xpct: 61.985, ypct: 98.749 },
-      '1106': { xpct: 73.804, ypct: 98.749 },
-      '1107': { xpct: 75.866, ypct: 54.951 },
-      '1108': { xpct: 75.179, ypct: 6.529 },
-      '1109': { xpct: 62.397, ypct: 5.713 },
-      '1110': { xpct: 57.312, ypct: 42.437 },
-      '1111': { xpct: 56.350, ypct: 51.959 },
-      '1112': { xpct: 45.767, ypct: 51.959 },
-      '1113': { xpct: 38.483, ypct: 50.598 },
-      '1114': { xpct: 40.957, ypct: 27.476 },
-      '1115': { xpct: 18.966, ypct: 7.617 },
-      '1116': { xpct: 11.407, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(11),
   },
   '12': {
     planKey: 'floor-12',
-    units: {
-      '1201': { xpct: 10.995, ypct: 98.749 },
-      '1202': { xpct: 27.075, ypct: 98.749 },
-      '1203': { xpct: 38.758, ypct: 98.749 },
-      '1204': { xpct: 50.302, ypct: 98.749 },
-      '1205': { xpct: 61.985, ypct: 98.749 },
-      '1206': { xpct: 73.804, ypct: 98.749 },
-      '1207': { xpct: 75.866, ypct: 54.951 },
-      '1208': { xpct: 75.041, ypct: 6.529 },
-      '1209': { xpct: 62.397, ypct: 5.985 },
-      '1210': { xpct: 57.312, ypct: 42.437 },
-      '1211': { xpct: 55.937, ypct: 51.959 },
-      '1212': { xpct: 45.904, ypct: 51.959 },
-      '1213': { xpct: 38.483, ypct: 50.598 },
-      '1214': { xpct: 40.957, ypct: 26.659 },
-      '1215': { xpct: 18.966, ypct: 7.617 },
-      '1216': { xpct: 11.270, ypct: 49.238 },
-    },
+    units: TYPICAL_FLOOR_UNITS(12),
   },
   '13': {
     planKey: 'floor-13',
     units: {
-      '1301': { xpct: 10.995, ypct: 98.749 },
-      '1310': { xpct: 57.312, ypct: 42.437 },
-      '1311': { xpct: 55.937, ypct: 51.959 },
-      '1312': { xpct: 45.904, ypct: 51.959 },
-      '1313': { xpct: 38.483, ypct: 50.598 },
-      '1315': { xpct: 18.829, ypct: 7.617 },
+      '1301': { xpct: 12.500, ypct: 91.500 }, // Penthouse 1301 clear pocket
+      '1310': { xpct: 57.500, ypct: 43.500 }, // Unit 1310 clear pocket
+      '1311': { xpct: 55.500, ypct: 53.500 }, // Unit 1311 clear pocket
+      '1312': { xpct: 45.500, ypct: 53.500 }, // Unit 1312 clear pocket
+      '1313': { xpct: 32.000, ypct: 61.500 }, // Unit 1313 clear pocket
+      '1315': { xpct: 14.500, ypct: 16.000 }, // Penthouse 1315 clear pocket
     },
   },
 };
 
 /** Duplex tag positions on the 13th floor plan (upper levels of floor 12 duplexes) */
 export const DUPLEX_TAGS_13: Record<string, { xpct: number; ypct: number }> = {
-  '1209': { xpct: 57.999, ypct: 6.801 },
-  '1208': { xpct: 69.901, ypct: 7.236 },
-  '1214': { xpct: 37.466, ypct: 25.734 },
-  '1207': { xpct: 74.629, ypct: 43.090 },
-  '1203': { xpct: 35.789, ypct: 92.165 },
-  '1204': { xpct: 46.674, ypct: 92.274 },
-  '1205': { xpct: 57.559, ypct: 92.111 },
-  '1206': { xpct: 68.857, ypct: 93.090 },
-  '1202': { xpct: 24.711, ypct: 93.526 },
+  '1209': { xpct: 58.500, ypct: 10.500 },
+  '1208': { xpct: 70.000, ypct: 10.500 },
+  '1214': { xpct: 37.500, ypct: 28.500 },
+  '1207': { xpct: 76.500, ypct: 56.500 },
+  '1202': { xpct: 25.500, ypct: 91.500 },
+  '1203': { xpct: 36.500, ypct: 91.500 },
+  '1204': { xpct: 47.500, ypct: 91.500 },
+  '1205': { xpct: 58.500, ypct: 91.500 },
+  '1206': { xpct: 69.500, ypct: 91.500 },
 };

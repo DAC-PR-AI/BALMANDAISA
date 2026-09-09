@@ -48,21 +48,21 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
         <div className="flex items-center gap-6 text-[11px] font-mono tracking-wider">
           <div className="flex items-baseline gap-2">
             <span className="text-white/40 uppercase tracking-widest text-[9px]">Available</span>
-            <span className="text-emerald-400 font-semibold text-sm">
+            <span className="text-[#3da382] font-semibold text-sm">
               <AnimatedCounter value={summary.available} />
             </span>
           </div>
           <span className="text-white/15">/</span>
           <div className="flex items-baseline gap-2">
             <span className="text-white/40 uppercase tracking-widest text-[9px]">Booked</span>
-            <span className="text-rose-400 font-semibold text-sm">
+            <span className="text-[#b84f67] font-semibold text-sm">
               <AnimatedCounter value={summary.booked} />
             </span>
           </div>
           <span className="text-white/15">/</span>
           <div className="flex items-baseline gap-2">
             <span className="text-white/40 uppercase tracking-widest text-[9px]">Blocked</span>
-            <span className="text-amber-400/90 font-semibold text-sm">
+            <span className="text-[#c59e4b] font-semibold text-sm">
               <AnimatedCounter value={summary.blocked} />
             </span>
           </div>

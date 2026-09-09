@@ -20,7 +20,16 @@ export function useAvailability() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(new Date());
   const [recentChanges, setRecentChanges] = useState<AvailabilityChange[]>([]);
   const unitsRef = useRef<Record<string, Unit>>(SEED_STOCK);
+  const isInitialFetch = useRef<boolean>(true);
   const dismissTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const clearChanges = useCallback(() => {
+    if (dismissTimerRef.current) {
+      clearTimeout(dismissTimerRef.current);
+      dismissTimerRef.current = null;
+    }
+    setRecentChanges([]);
+  }, []);
 
   const fetchAvailability = useCallback(async () => {
     setIsLoading(true);
@@ -35,19 +44,25 @@ export function useAvailability() {
       
       if (json.status === 'ok' && json.data) {
         const nextUnits = json.data as Record<string, Unit>;
-        const detected = diffUnitAvailability(unitsRef.current, nextUnits);
-        
-        if (detected.length > 0) {
-          setRecentChanges(prev => [...detected, ...prev].slice(0, 10));
 
-          // Clear any existing dismiss timer and start a fresh 5-second countdown
-          if (dismissTimerRef.current) {
-            clearTimeout(dismissTimerRef.current);
+        // Only detect diffs after the initial data baseline has been established
+        if (!isInitialFetch.current) {
+          const detected = diffUnitAvailability(unitsRef.current, nextUnits);
+          
+          if (detected.length > 0) {
+            setRecentChanges(prev => [...detected, ...prev].slice(0, 5));
+
+            // Clear any existing dismiss timer and start a fresh 4.5-second countdown
+            if (dismissTimerRef.current) {
+              clearTimeout(dismissTimerRef.current);
+            }
+            dismissTimerRef.current = setTimeout(() => {
+              setRecentChanges([]);
+              dismissTimerRef.current = null;
+            }, 4500);
           }
-          dismissTimerRef.current = setTimeout(() => {
-            setRecentChanges([]);
-            dismissTimerRef.current = null;
-          }, TOAST_DISMISS_MS);
+        } else {
+          isInitialFetch.current = false;
         }
 
         unitsRef.current = nextUnits;
@@ -124,6 +139,7 @@ export function useAvailability() {
     isLoading,
     lastUpdated,
     recentChanges,
+    clearChanges,
     refresh: fetchAvailability,
     getFloorUnitsList,
     getFloorStats,

@@ -1,7 +1,8 @@
 'use client';
 
 // ============================================================
-// BALMANDAISA — Premium Stacked Bar Chart Availability Matrix
+// BALMANDAISA — Modern Translucent Architectural Availability Matrix
+// Semi-Transparent Layered Glass · Slim Refined Columns · Executive Hierarchy
 // ============================================================
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -22,13 +23,63 @@ interface FinalSummaryProps {
   onSelectFloor?: (floor: number) => void;
 }
 
-// 5 Status segments matching Google Sheet availability categories exactly
+// Translucent Architectural Glass Palette (65–80% opacity with edge definitions)
 const SEGMENTS = [
-  { key: 'available' as const, label: 'Available', color: '#10b981', hoverColor: '#34d399', bgClass: 'bg-emerald-500' },
-  { key: 'booked' as const, label: 'Booked', color: '#f43f5e', hoverColor: '#fb7185', bgClass: 'bg-rose-500' },
-  { key: 'blocked' as const, label: 'Blocked', color: '#f59e0b', hoverColor: '#fbbf24', bgClass: 'bg-amber-500' },
-  { key: 'loBlocked' as const, label: 'LO-Blocked', color: '#f97316', hoverColor: '#fb923c', bgClass: 'bg-orange-500' },
-  { key: 'notForSale' as const, label: 'NFS', color: '#64748b', hoverColor: '#94a3b8', bgClass: 'bg-slate-500' },
+  {
+    key: 'available' as const,
+    label: 'Available',
+    fill: 'rgba(30, 107, 82, 0.78)',
+    border: 'rgba(61, 163, 130, 0.50)',
+    hoverFill: 'rgba(36, 125, 94, 0.92)',
+    hoverBorder: 'rgba(74, 186, 150, 0.75)',
+    textClass: 'text-[#3da382]',
+    legendFill: 'rgba(30, 107, 82, 0.85)',
+    legendBorder: 'border-[#3da382]/50',
+  },
+  {
+    key: 'booked' as const,
+    label: 'Booked',
+    fill: 'rgba(122, 31, 51, 0.72)',
+    border: 'rgba(184, 79, 103, 0.45)',
+    hoverFill: 'rgba(143, 38, 61, 0.88)',
+    hoverBorder: 'rgba(206, 92, 118, 0.70)',
+    textClass: 'text-[#b84f67]',
+    legendFill: 'rgba(122, 31, 51, 0.85)',
+    legendBorder: 'border-[#b84f67]/50',
+  },
+  {
+    key: 'blocked' as const,
+    label: 'Blocked',
+    fill: 'rgba(158, 120, 47, 0.68)',
+    border: 'rgba(197, 158, 75, 0.40)',
+    hoverFill: 'rgba(179, 137, 56, 0.85)',
+    hoverBorder: 'rgba(219, 177, 89, 0.65)',
+    textClass: 'text-[#c59e4b]',
+    legendFill: 'rgba(158, 120, 47, 0.80)',
+    legendBorder: 'border-[#c59e4b]/50',
+  },
+  {
+    key: 'loBlocked' as const,
+    label: 'LO-Blocked',
+    fill: 'rgba(138, 67, 37, 0.68)',
+    border: 'rgba(184, 106, 71, 0.40)',
+    hoverFill: 'rgba(158, 78, 44, 0.85)',
+    hoverBorder: 'rgba(206, 120, 81, 0.65)',
+    textClass: 'text-[#b86a47]',
+    legendFill: 'rgba(138, 67, 37, 0.80)',
+    legendBorder: 'border-[#b86a47]/50',
+  },
+  {
+    key: 'notForSale' as const,
+    label: 'NFS',
+    fill: 'rgba(60, 74, 92, 0.60)',
+    border: 'rgba(107, 125, 148, 0.35)',
+    hoverFill: 'rgba(74, 91, 112, 0.78)',
+    hoverBorder: 'rgba(127, 147, 173, 0.55)',
+    textClass: 'text-[#6b7d94]',
+    legendFill: 'rgba(60, 74, 92, 0.75)',
+    legendBorder: 'border-[#6b7d94]/50',
+  },
 ];
 
 export const FinalSummary: React.FC<FinalSummaryProps> = ({
@@ -43,7 +94,7 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
   // Smooth cubic ease-out entry animation
   useEffect(() => {
     let startTimestamp: number | null = null;
-    const duration = 800;
+    const duration = 750;
 
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
@@ -65,14 +116,13 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
     return floors.map(f => getFloorStats(f));
   }, [floors, getFloorStats]);
 
-  // Max units for Y-axis scaling (minimum 16 to keep nice headroom)
+  // Max units for Y-axis scaling
   const maxUnits = useMemo(() => {
     const highest = Math.max(...floorData.map(d => d.total), 1);
-    // Round up to nearest multiple of 4 or 5 for clean Y-axis ticks
     return Math.max(Math.ceil(highest / 4) * 4, 16);
   }, [floorData]);
 
-  // Development Data Validation Mechanism
+  // Development Data Sync Validation
   const validationIssues = useMemo(() => {
     if (process.env.NODE_ENV !== 'development') return [];
     const issues: string[] = [];
@@ -119,10 +169,10 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
   return (
     <div className="relative w-full h-full flex flex-col justify-between select-none p-6 sm:p-8 lg:p-10 max-w-7xl mx-auto">
       
-      {/* ── Top Header: Logo + Title + Summary KPIs ── */}
-      <div className="w-full flex flex-col md:flex-row items-start md:items-baseline justify-between border-b border-white/10 pb-4 gap-4">
+      {/* ── Top Header: Logo + Title + Executive Summary Strip ── */}
+      <div className="w-full flex flex-col md:flex-row items-start md:items-baseline justify-between border-b border-white/[0.08] pb-4 gap-4">
         <div className="flex items-center gap-5">
-          <div className="relative h-10 w-36 flex-shrink-0">
+          <div className="relative h-9 w-32 flex-shrink-0">
             <Image
               src="/branding/balmandaisa-logo.png"
               alt="Balmandaisa by DAC"
@@ -130,57 +180,57 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
               className="object-contain"
             />
           </div>
-          <div className="h-8 w-[1px] bg-white/15 hidden sm:block" />
+          <div className="h-7 w-[1px] bg-white/10 hidden sm:block" />
           <div className="flex flex-col">
-            <span className="text-[10px] tracking-[0.4em] text-[#c5a869] font-medium uppercase">
+            <span className="text-[9px] tracking-[0.35em] text-[#c5a869] font-mono font-medium uppercase">
               Project Overview
             </span>
-            <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-white">
+            <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-white/95">
               Availability Matrix
             </h2>
           </div>
         </div>
 
-        {/* Discreet KPI Line with all 5 Google Sheet Categories */}
-        <div className="flex items-center gap-3 sm:gap-5 lg:gap-6 text-xs font-mono tracking-widest flex-wrap">
+        {/* Executive KPI Summary Row */}
+        <div className="flex items-center gap-3 sm:gap-5 lg:gap-6 text-xs font-mono tracking-wider flex-wrap">
           <div className="flex items-baseline gap-2">
-            <span className="text-white/40 uppercase text-[10px]">Total</span>
+            <span className="text-white/35 uppercase text-[9px] font-sans">Total</span>
             <span className="text-lg font-light text-white">
               <AnimatedCounter value={overallStats.total} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-emerald-400/80 uppercase text-[10px]">Available</span>
-            <span className="text-lg font-light text-emerald-400">
+            <span className="text-[#3da382] uppercase text-[9px] font-sans font-medium">Available</span>
+            <span className="text-lg font-light text-[#3da382]">
               <AnimatedCounter value={overallStats.available} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-rose-400/80 uppercase text-[10px]">Booked</span>
-            <span className="text-lg font-light text-rose-400">
+            <span className="text-[#b84f67] uppercase text-[9px] font-sans font-medium">Booked</span>
+            <span className="text-lg font-light text-[#b84f67]">
               <AnimatedCounter value={overallStats.booked} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-amber-400/80 uppercase text-[10px]">Blocked</span>
-            <span className="text-lg font-light text-amber-400">
+            <span className="text-[#c59e4b] uppercase text-[9px] font-sans font-medium">Blocked</span>
+            <span className="text-lg font-light text-[#c59e4b]">
               <AnimatedCounter value={overallStats.blocked} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-orange-400/80 uppercase text-[10px]">LO-Blocked</span>
-            <span className="text-lg font-light text-orange-400">
+            <span className="text-[#b86a47] uppercase text-[9px] font-sans font-medium">LO-Blocked</span>
+            <span className="text-lg font-light text-[#b86a47]">
               <AnimatedCounter value={overallStats.loBlocked} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-slate-400/80 uppercase text-[10px]">NFS</span>
-            <span className="text-lg font-light text-slate-400">
+            <span className="text-[#6b7d94] uppercase text-[9px] font-sans font-medium">NFS</span>
+            <span className="text-lg font-light text-[#6b7d94]">
               <AnimatedCounter value={overallStats.notForSale} />
             </span>
           </div>
@@ -189,55 +239,59 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
 
       {/* ── Dev Mode Data Sync Alert (if any inconsistency detected) ── */}
       {validationIssues.length > 0 && process.env.NODE_ENV === 'development' && (
-        <div className="my-2 px-3 py-1.5 rounded-lg bg-rose-950/70 border border-rose-500/30 text-rose-300 text-[10px] font-mono flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping flex-shrink-0" />
+        <div className="my-2 px-3 py-1.5 rounded-lg bg-rose-950/60 border border-rose-500/30 text-rose-300 text-[10px] font-mono flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping flex-shrink-0" />
           <span>Data Sync Issue: {validationIssues[0]}</span>
         </div>
       )}
 
-      {/* ── Center Section: Stacked Bar Chart ── */}
-      <div className="flex-1 flex flex-col justify-center my-auto py-2">
+      {/* ── Center Section: Slim Modern Translucent Architectural Stacked Chart ── */}
+      <div className="flex-1 flex flex-col justify-center my-auto py-3">
         {/* Section Heading */}
-        <div className="text-center mb-6">
-          <span className="text-[11px] font-mono tracking-[0.35em] text-white/40 uppercase">
+        <div className="text-center mb-5">
+          <span className="text-[10px] font-mono tracking-[0.3em] text-white/35 uppercase">
             Total Units by Floor
           </span>
         </div>
 
         {/* Main Chart Canvas Container */}
-        <div className="relative w-full h-[260px] sm:h-[300px] lg:h-[340px] flex">
+        <div className="relative w-full h-[260px] sm:h-[300px] lg:h-[330px] flex">
           
           {/* Y-Axis Scale */}
-          <div className="relative h-full flex flex-col justify-between pr-3 py-0 text-right select-none" style={{ minWidth: '32px' }}>
+          <div className="relative h-full flex flex-col justify-between pr-3 py-0 text-right select-none" style={{ minWidth: '30px' }}>
             {yTicks.slice().reverse().map(tick => (
-              <span key={tick} className="text-[9px] sm:text-[10px] font-mono text-white/30 leading-none">
+              <span key={tick} className="text-[9px] font-mono text-white/30 leading-none">
                 {tick}
               </span>
             ))}
           </div>
 
-          {/* Chart Grid & Bars Body */}
-          <div className="relative flex-1 h-full border-l border-b border-white/10">
+          {/* Chart Grid & Translucent Bars Body */}
+          <div className="relative flex-1 h-full border-l border-b border-white/[0.08]">
             
-            {/* Horizontal Gridlines */}
+            {/* Horizontal Gridlines (Ultra-Subtle) */}
             {yTicks.map(tick => (
               <div
                 key={tick}
-                className="absolute w-full border-t border-white/[0.04] pointer-events-none"
+                className="absolute w-full border-t border-white/[0.03] pointer-events-none"
                 style={{ bottom: `${(tick / maxUnits) * 100}%` }}
               />
             ))}
 
-            {/* 13 Stacked Vertical Bars */}
-            <div className="absolute inset-0 flex items-end justify-between px-1 sm:px-2 gap-1.5 sm:gap-3">
+            {/* 13 Refined Slim Stacked Bars with Generous Breathing Room */}
+            <div className="absolute inset-0 flex items-end justify-between px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-4">
               {floorData.map(fd => {
                 const isHovered = hoveredFloor === fd.floor;
+                const isAnyHovered = hoveredFloor !== null;
+                const isDimmed = isAnyHovered && !isHovered;
                 const barHeightPct = fd.total > 0 ? (fd.total / maxUnits) * 100 * animProgress : 0;
 
                 return (
                   <div
                     key={fd.floor}
-                    className="relative flex-1 h-full flex flex-col justify-end items-center group cursor-pointer"
+                    className={`relative flex-1 h-full flex flex-col justify-end items-center group cursor-pointer transition-opacity duration-200 ${
+                      isDimmed ? 'opacity-30' : 'opacity-100'
+                    }`}
                     onMouseEnter={() => setHoveredFloor(fd.floor)}
                     onMouseLeave={() => setHoveredFloor(null)}
                     onClick={() => onSelectFloor?.(fd.floor)}
@@ -251,26 +305,26 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
                       }}
                     >
                       <span
-                        className={`text-[10px] sm:text-[11px] font-mono font-semibold transition-colors duration-200 ${
-                          isHovered ? 'text-[#D4AF37]' : 'text-white/60'
+                        className={`text-[10px] sm:text-[11px] font-mono font-medium transition-colors duration-200 ${
+                          isHovered ? 'text-[#D4AF37] font-bold' : 'text-white/45'
                         }`}
                       >
                         {fd.total}
                       </span>
                     </div>
 
-                    {/* The Stacked Bar Column */}
+                    {/* Slim Refined Translucent Bar Container */}
                     <div
-                      className={`w-full max-w-[42px] sm:max-w-[48px] rounded-t-[4px] overflow-hidden flex flex-col transition-all duration-300 border ${
+                      className={`w-full max-w-[28px] sm:max-w-[32px] md:max-w-[34px] rounded-t-[3px] overflow-hidden flex flex-col transition-all duration-200 border ${
                         isHovered
-                          ? 'border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.25)] ring-1 ring-[#D4AF37]/50'
-                          : 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)]'
+                          ? 'border-[#c5a869]/70 shadow-[0_0_12px_rgba(197,168,105,0.15)] ring-1 ring-[#c5a869]/30'
+                          : 'border-white/[0.08]'
                       }`}
                       style={{
                         height: `${barHeightPct}%`,
                       }}
                     >
-                      {/* Segments Stacked Inside (Top-to-Bottom order: NFS, LO-Blocked, Blocked, Booked, Available) */}
+                      {/* Segments Stacked Inside as Translucent Layers (Top-to-Bottom: NFS, LO-Blocked, Blocked, Booked, Available) */}
                       {SEGMENTS.slice().reverse().map(seg => {
                         const count = fd[seg.key];
                         if (count <= 0 || fd.total <= 0) return null;
@@ -279,16 +333,16 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
                         return (
                           <div
                             key={seg.key}
-                            className="w-full relative flex items-center justify-center transition-all duration-200"
+                            className="w-full relative flex items-center justify-center transition-all duration-150 border-b border-black/30 first:border-b-0"
                             style={{
                               height: `${segmentHeightPct}%`,
-                              backgroundColor: isHovered ? seg.hoverColor : seg.color,
-                              opacity: isHovered ? 1 : 0.9,
+                              backgroundColor: isHovered ? seg.hoverFill : seg.fill,
+                              borderTop: `1px solid ${isHovered ? seg.hoverBorder : seg.border}`,
                             }}
                           >
-                            {/* Inner segment number if segment has enough vertical space */}
-                            {segmentHeightPct >= 18 && (
-                              <span className="text-[9px] font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                            {/* Segment value inside if sufficient vertical height */}
+                            {segmentHeightPct >= 22 && (
+                              <span className="text-[9px] font-mono font-medium text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
                                 {count}
                               </span>
                             )}
@@ -297,48 +351,51 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
                       })}
                     </div>
 
-                    {/* Hover Floating Tooltip */}
+                    {/* Clean Dark Glass Tooltip */}
                     {isHovered && (
                       <div
                         className="absolute z-50 pointer-events-none"
                         style={{
-                          bottom: `calc(${barHeightPct}% + 28px)`,
+                          bottom: `calc(${barHeightPct}% + 26px)`,
                           left: '50%',
                           transform: 'translateX(-50%)',
                         }}
                       >
-                        <div className="bg-[#0b101b]/98 border border-[#D4AF37]/50 rounded-xl px-4 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.9)] backdrop-blur-2xl min-w-[170px]">
-                          <div className="text-[10px] tracking-[0.25em] text-[#D4AF37] uppercase font-semibold mb-1.5">
+                        <div className="bg-[#080c14]/98 border border-white/15 rounded-xl px-4 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.95)] backdrop-blur-2xl min-w-[170px]">
+                          <div className="text-[10px] tracking-[0.2em] text-[#c5a869] uppercase font-mono font-medium mb-1.5">
                             {FLOOR_TERMINOLOGY[fd.floor]?.display || `Floor ${fd.floor}`}
                           </div>
-                          <div className="h-[1px] bg-white/10 mb-2" />
+                          <div className="h-[1px] bg-white/[0.08] mb-2" />
                           
                           {SEGMENTS.map(seg => {
                             const val = fd[seg.key];
                             return (
-                              <div key={seg.key} className="flex items-center justify-between gap-4 py-[2.5px]">
+                              <div key={seg.key} className="flex items-center justify-between gap-4 py-[2px]">
                                 <div className="flex items-center gap-2">
                                   <span
-                                    className="w-2 h-2 rounded-full flex-shrink-0"
-                                    style={{ backgroundColor: seg.color }}
+                                    className="w-[9px] h-[9px] rounded-[2px] flex-shrink-0"
+                                    style={{
+                                      backgroundColor: seg.fill,
+                                      border: `1px solid ${seg.border}`,
+                                    }}
                                   />
-                                  <span className="text-[11px] text-white/70">{seg.label}</span>
+                                  <span className="text-[11px] font-sans text-white/70">{seg.label}</span>
                                 </div>
-                                <span className="text-[11px] font-mono font-semibold text-white">
+                                <span className="text-[11px] font-mono font-medium text-white">
                                   {val}
                                 </span>
                               </div>
                             );
                           })}
 
-                          <div className="h-[1px] bg-white/10 mt-2 mb-1.5" />
+                          <div className="h-[1px] bg-white/[0.08] mt-2 mb-1.5" />
                           <div className="flex items-center justify-between pt-0.5">
-                            <span className="text-[10px] text-white/40 uppercase tracking-wider">Total Units</span>
-                            <span className="text-xs font-mono font-bold text-[#D4AF37]">{fd.total}</span>
+                            <span className="text-[10px] text-white/40 uppercase font-sans tracking-wider">Total</span>
+                            <span className="text-xs font-mono font-bold text-[#c5a869]">{fd.total}</span>
                           </div>
                         </div>
                         {/* Tooltip Downward Caret */}
-                        <div className="w-2.5 h-2.5 bg-[#0b101b] border-b border-r border-[#D4AF37]/50 rotate-45 mx-auto -mt-1.5 shadow-[2px_2px_4px_rgba(0,0,0,0.5)]" />
+                        <div className="w-2.5 h-2.5 bg-[#080c14] border-b border-r border-white/15 rotate-45 mx-auto -mt-1.5" />
                       </div>
                     )}
                   </div>
@@ -347,13 +404,13 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
             </div>
 
             {/* X-Axis Floor Indicator Labels */}
-            <div className="absolute -bottom-8 left-0 right-0 flex justify-between px-1 sm:px-2 gap-1.5 sm:gap-3">
+            <div className="absolute -bottom-8 left-0 right-0 flex justify-between px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-4">
               {floorData.map(fd => (
                 <div
                   key={fd.floor}
                   className={`flex-1 text-center text-[10px] sm:text-[11px] font-mono tracking-wider transition-colors duration-200 cursor-pointer ${
                     hoveredFloor === fd.floor
-                      ? 'text-[#D4AF37] font-semibold'
+                      ? 'text-[#c5a869] font-bold'
                       : 'text-white/40 group-hover:text-white/70'
                   }`}
                   onClick={() => onSelectFloor?.(fd.floor)}
@@ -365,15 +422,15 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
           </div>
         </div>
 
-        {/* ── Status Color Legend ── */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6 mt-14 flex-wrap">
+        {/* ── Translucent Legend (13px Rounded Square Indicators with Matching Depth) ── */}
+        <div className="flex items-center justify-center gap-7 sm:gap-11 mt-14 flex-wrap">
           {SEGMENTS.map(seg => (
-            <div key={seg.key} className="flex items-center gap-2">
+            <div key={seg.key} className="flex items-center gap-3">
               <span
-                className="w-2.5 h-2.5 rounded-[2px]"
-                style={{ backgroundColor: seg.color }}
+                className={`w-[13px] h-[13px] rounded-[3px] flex-shrink-0 shadow-sm border ${seg.legendBorder}`}
+                style={{ backgroundColor: seg.legendFill }}
               />
-              <span className="text-[10px] font-mono text-white/50 tracking-wider uppercase">
+              <span className="text-xs font-sans text-white/80 font-normal tracking-wide">
                 {seg.label}
               </span>
             </div>
@@ -382,7 +439,7 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
       </div>
 
       {/* ── Bottom Editorial Footer ── */}
-      <div className="flex items-center justify-between text-[10px] text-white/30 tracking-[0.25em] uppercase border-t border-white/5 pt-3">
+      <div className="flex items-center justify-between text-[10px] text-white/25 tracking-[0.25em] uppercase border-t border-white/[0.06] pt-3">
         <span>BALMANDAISA  ·  SALES GALLERY</span>
         <span>CONTINUOUS CINEMATIC LOOP</span>
       </div>

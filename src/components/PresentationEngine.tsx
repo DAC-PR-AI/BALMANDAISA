@@ -34,6 +34,7 @@ export const PresentationEngine: React.FC = () => {
     isConnected,
     lastUpdated,
     recentChanges,
+    clearChanges,
     refresh,
     getFloorUnitsList,
     getFloorStats,
@@ -178,8 +179,12 @@ export const PresentationEngine: React.FC = () => {
         )}
       </section>
 
-      {/* Discreet Live Availability Notification Toast */}
-      <AvailabilityOverlay changes={recentChanges} />
+      {/* Full-Screen Real-Time Cinematic Status Change Command Center Overlay */}
+      <AvailabilityOverlay
+        changes={recentChanges}
+        units={units}
+        onDismiss={clearChanges}
+      />
 
       {/* Minimal Auto-Hiding Controls */}
       <PresentationControls

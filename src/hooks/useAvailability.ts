@@ -11,6 +11,8 @@ import { SEED_STOCK } from '@/data/seed-stock';
 import { diffUnitAvailability } from '@/lib/availability/differ';
 import { PRESENTATION_CONFIG } from '@/config/presentation';
 
+const TOAST_DISMISS_MS = 5000; // Auto-dismiss live update toasts after 5 seconds
+
 export function useAvailability() {
   const [units, setUnits] = useState<Record<string, Unit>>(SEED_STOCK);
   const [isConnected, setIsConnected] = useState<boolean>(true);
@@ -18,6 +20,7 @@ export function useAvailability() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(new Date());
   const [recentChanges, setRecentChanges] = useState<AvailabilityChange[]>([]);
   const unitsRef = useRef<Record<string, Unit>>(SEED_STOCK);
+  const dismissTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchAvailability = useCallback(async () => {
     setIsLoading(true);
@@ -36,6 +39,15 @@ export function useAvailability() {
         
         if (detected.length > 0) {
           setRecentChanges(prev => [...detected, ...prev].slice(0, 10));
+
+          // Clear any existing dismiss timer and start a fresh 5-second countdown
+          if (dismissTimerRef.current) {
+            clearTimeout(dismissTimerRef.current);
+          }
+          dismissTimerRef.current = setTimeout(() => {
+            setRecentChanges([]);
+            dismissTimerRef.current = null;
+          }, TOAST_DISMISS_MS);
         }
 
         unitsRef.current = nextUnits;
@@ -71,6 +83,9 @@ export function useAvailability() {
     return () => {
       clearInterval(timer);
       window.removeEventListener('focus', handleFocus);
+      if (dismissTimerRef.current) {
+        clearTimeout(dismissTimerRef.current);
+      }
     };
   }, [fetchAvailability]);
 

@@ -146,6 +146,8 @@ export const PresentationEngine: React.FC = () => {
           <ElevationReveal
             overallStats={overallStats}
             getFloorStats={getFloorStats}
+            units={units}
+            lastUpdated={lastUpdated}
             onSelectFloor={floor => jumpToFloor(floor)}
           />
         )}

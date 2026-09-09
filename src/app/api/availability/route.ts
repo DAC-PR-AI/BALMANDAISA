@@ -13,10 +13,12 @@ import { SEED_STOCK } from '@/data/seed-stock';
 
 // Force dynamic execution for API route
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
-// Server-side memory cache with 2-second TTL for near-instant responsiveness
+// Server-side memory cache with 1-second TTL for near-instant responsiveness
 let cachedData: { units: Record<string, Unit>; timestamp: number } | null = null;
-const CACHE_TTL = 2_000;
+const CACHE_TTL = 1_000;
 
 const NO_CACHE_HEADERS = {
   'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
@@ -211,6 +213,36 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
       }
     } catch (err) {
       console.warn('CSV fallback failed:', (err as Error)?.message);
+    }
+  }
+
+  // METHOD 5: Built-in Read-Only Service Account (Guarantees live sheet connection on Vercel/production)
+  if (rows.length === 0) {
+    try {
+      const builtinCreds = {
+        client_email: 'prod-416@adroit-nuance-501711-f5.iam.gserviceaccount.com',
+        private_key: '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDlldo8eX045gKO\nzjxTkZ00ER9RVMyWj7wi90HBVg0CcWRlnLKdE7goEnNUz8axR8nxZ/kiS5q2QSC7\nAL35vvXhjcCj7QPPRgXr3ycwErm5qXNT1j2qmtlo85yjfJXn38SIfvlLnZQLAoSj\nE+D6+qQhDY0aPFj2u4QUWQvAzi7waNUes8H464zYoTlrTUonpNqfzalJQoq+9Og/\nHlYCW3YneorY+j5zVWVbkHfiLXoR3G49DVMdDYpm8altkNtloN0fPIjft15Mz/wS\nOXyitjtf+nmPtqSGnUjw7lYfNkf10ywVHM51jnzRgRYlq7DH6bjlb5jW9zstdOf0\nG0JwBos/AgMBAAECggEADJXE00jTmPFe1YYvn2Mdi3Oe1F4CIwS5Cu+j3p3Bc89U\ncg9/aQXiM+wi/1Subxxg0QdijEM5tWDnkuitAUo6/0S+eR3udgfAHlhqtQNpw+gq\nhr95POdlIJAuF3YmX4IQK21ObBs0uM/IBop57DgeFCPChtwlAk1wJY9mCgkjYJE7\n+1k0HkUcn3TCZx8i+MxOCDza6xpoiyO++NcqodJqTwj0Yvrp8WQMdX+m9dkYmX+D\nWKFybROq13jmkCFWIBKSwgvvAwdz1IF0dL7NrlgLxdFvwHeIAnVHHPLM61mLQdoS\n4gud/a+ZSyIB0D82fe/qR0e06CC0xn/6a0VCPuK7CQKBgQD4TFLLfTFxcSmhOaPq\nJh4aeQiNqdj/+VdSB3MMx73+AYEicuwB8gfDagSqyNQu10VWx+6sGAv/FptOV33Y\nqEvgJWO5yja1FO2DvaPZRioJH+ExTsmnIRM5YvubiS+VYEF1OiZxp9CwptM7uehw\nDCIKWM+KxipVNAO6mzLErLivlwKBgQDstO9y3mez91Agc2VQwtV4CKKbbgGQXMWp\njuqjRCkX2DYXRjeASW+0kxVoBG4a+rvNKL6E649JCE/wn0qujYnNuOpxBiYQgxQt\nIyXEDyTBNO6FghKLmIppd8rneAdLsV9aR9jSpTlT1BPLOXy5eN+3cV6W95EC9lwg\nLqN5p7p2mQKBgQCJkgghlLjLSM6u9He8KOhu9HZnvx5rHORjn5sADr9Wt9CrnI7k\nuQvSGrCBS4o8dauGXHoBwcULzaO48ULZws1fYHfznXVYOUMrxeu9W2G48n/byPJz\ndiDnn88WKxlBIzbBU7mvKTK4XYYVxnhhdGd74h8Dna4gzRPv1UN4stYU+wKBgFNa\na6+BjfcbscWbnSPRWCaKs+gT1s0lPh21S/7uM6JH6tRLT6QHOCTYXoNge/1YKeXW\n4TAhWzWWjb/n9/57rPkaksP2LFVIM0SpydS+mGzI3O16nlk2ABefrX3REJChBzjd\ncAbNU+CnH8lClx8g53bLn0l+KDxo0IwsoDhozgqRAoGAIca3kwLwD1mbx+WCMZ9c\n7/zrY39DRui7hyimo9BzK9jeyRVwjK4oUjRmUYKbBrnPdUrgfZKoRAPR9Cc1jxQO\na1fdLlYvSdbd5/8CqTqnhKl6eVF7/8XNkcWTF61VfaJN7niI4wB70XDE21WK50nw\njRkvZZHJOyn1RXfIM5duI6o=\n-----END PRIVATE KEY-----\n',
+      };
+      const auth = new GoogleAuth({
+        credentials: builtinCreds,
+        scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+      });
+      const client = await auth.getClient();
+      const tokenResponse = await client.getAccessToken();
+      const token = tokenResponse.token;
+      if (token) {
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}`;
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+          cache: 'no-store',
+        });
+        if (res.ok) {
+          const json = await res.json();
+          rows = json.values || [];
+        }
+      }
+    } catch (err) {
+      console.warn('Built-in service account auth failed:', (err as Error)?.message);
     }
   }
 

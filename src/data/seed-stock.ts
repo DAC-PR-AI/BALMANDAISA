@@ -4,7 +4,7 @@
 // Complete unit inventory synchronized with live Google Sheet 'Stock'.
 // Used when Google Sheets is unavailable or during cold boot.
 
-import { Unit } from '@/types';
+import { Unit, normalizeStatus } from '@/types';
 
 interface SeedUnit {
   unit: string;
@@ -21,12 +21,6 @@ const RAW_SEED: Record<string, SeedUnit> = {"101": {"unit": "101", "floor": "1",
 
 /** Convert raw seed data to normalized Unit format */
 function toUnit(raw: SeedUnit): Unit {
-  const status = raw.status.trim().toUpperCase();
-  let normalizedStatus: Unit['status'] = 'NOT_FOR_SALE';
-  if (status === 'AVAILABLE' || status === 'AVL') normalizedStatus = 'AVAILABLE';
-  else if (status === 'BOOKED' || status === 'SOLD') normalizedStatus = 'BOOKED';
-  else if (status.includes('BLOCK')) normalizedStatus = 'BLOCKED';
-
   return {
     id: raw.unit,
     floor: parseInt(raw.floor, 10),
@@ -35,7 +29,7 @@ function toUnit(raw: SeedUnit): Unit {
     sizeLabel: raw.size,
     builtup: raw.builtup,
     totalCost: raw.total,
-    status: normalizedStatus,
+    status: normalizeStatus(raw.status),
     isDuplex: raw.type.includes('DUPLEX'),
   };
 }

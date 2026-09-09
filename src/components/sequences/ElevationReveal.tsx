@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { BuildingElevation } from '../visualization/BuildingElevation';
-import { FloorSummary } from '@/types';
+import { FloorSummary, Unit } from '@/types';
 
 interface ElevationRevealProps {
   overallStats?: {
@@ -19,12 +19,16 @@ interface ElevationRevealProps {
   };
   getFloorStats: (floor: number) => FloorSummary;
   onSelectFloor?: (floor: number) => void;
+  units?: Record<string, Unit>;
+  lastUpdated?: Date | null;
 }
 
 export const ElevationReveal: React.FC<ElevationRevealProps> = ({
   overallStats,
   getFloorStats,
   onSelectFloor,
+  units,
+  lastUpdated,
 }) => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-6 relative">
@@ -41,6 +45,8 @@ export const ElevationReveal: React.FC<ElevationRevealProps> = ({
         overallStats={overallStats}
         getFloorStats={getFloorStats}
         onSelectFloor={onSelectFloor}
+        units={units}
+        lastUpdated={lastUpdated}
       />
     </div>
   );

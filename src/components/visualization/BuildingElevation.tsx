@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 import { ELEVATION_PINS_FULL } from '@/data/elevation-pins';
-import { FloorSummary, AVAILABILITY_SPLITS, FLOOR_TERMINOLOGY } from '@/types';
+import { FloorSummary, AVAILABILITY_SPLITS, FLOOR_TERMINOLOGY, Unit } from '@/types';
 
 interface BuildingElevationProps {
   currentFloor?: number;
@@ -20,6 +20,8 @@ interface BuildingElevationProps {
     loBlocked: number;
     notForSale: number;
   };
+  units?: Record<string, Unit>;
+  lastUpdated?: Date | null;
 }
 
 export const BuildingElevation: React.FC<BuildingElevationProps> = ({
@@ -27,6 +29,8 @@ export const BuildingElevation: React.FC<BuildingElevationProps> = ({
   onSelectFloor,
   getFloorStats,
   overallStats,
+  units,
+  lastUpdated,
 }) => {
   const [hoveredFloor, setHoveredFloor] = useState<number | null>(null);
   const activeFloor = hoveredFloor || currentFloor || 1;

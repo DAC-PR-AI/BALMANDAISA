@@ -103,6 +103,8 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
                     ? 'bg-rose-950 text-rose-300 border-rose-500/50'
                     : selectedUnit.status === 'BLOCKED'
                     ? 'bg-amber-950 text-amber-300 border-amber-500/50'
+                    : selectedUnit.status === 'LO_BLOCKED'
+                    ? 'bg-orange-950 text-orange-300 border-orange-500/50'
                     : 'bg-slate-900 text-slate-400 border-slate-700/50'
                 }`}
               >

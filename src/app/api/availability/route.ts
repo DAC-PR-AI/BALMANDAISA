@@ -14,20 +14,30 @@ import { SEED_STOCK } from '@/data/seed-stock';
 // Force dynamic execution for API route
 export const dynamic = 'force-dynamic';
 
-// Server-side memory cache with 15-second TTL
+// Server-side memory cache with 2-second TTL for near-instant responsiveness
 let cachedData: { units: Record<string, Unit>; timestamp: number } | null = null;
-const CACHE_TTL = 15_000;
+const CACHE_TTL = 2_000;
 
-export async function GET() {
+const NO_CACHE_HEADERS = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
+  'Pragma': 'no-cache',
+  'Expires': '0',
+  'Surrogate-Control': 'no-store',
+};
+
+export async function GET(request: Request) {
   try {
-    // Return cache if fresh
-    if (cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
+    const url = new URL(request.url);
+    const forceFresh = url.searchParams.has('fresh') || url.searchParams.has('t');
+
+    // Return cache only if fresh and not explicitly bypassed
+    if (!forceFresh && cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
       return NextResponse.json({
         status: 'ok',
         data: cachedData.units,
         cached: true,
         timestamp: cachedData.timestamp,
-      });
+      }, { headers: NO_CACHE_HEADERS });
     }
 
     const units = await fetchFromSecureSource();
@@ -40,7 +50,7 @@ export async function GET() {
       data: units && Object.keys(units).length > 0 ? units : (cachedData?.units || SEED_STOCK),
       cached: false,
       timestamp: Date.now(),
-    });
+    }, { headers: NO_CACHE_HEADERS });
   } catch (error) {
     console.error('Availability fetch fallback triggered:', (error as Error)?.message || error);
 
@@ -52,7 +62,7 @@ export async function GET() {
         cached: true,
         stale: true,
         timestamp: cachedData.timestamp,
-      });
+      }, { headers: NO_CACHE_HEADERS });
     }
 
     // Fallback to embedded seed stock to guarantee 0 presentation disruption
@@ -61,7 +71,7 @@ export async function GET() {
       data: SEED_STOCK,
       fallback: true,
       timestamp: Date.now(),
-    });
+    }, { headers: NO_CACHE_HEADERS });
   }
 }
 
@@ -114,7 +124,7 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
           const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}`;
           const res = await fetch(url, {
             headers: { Authorization: `Bearer ${token}` },
-            next: { revalidate: 10 },
+            cache: 'no-store',
           });
           if (res.ok) {
             const json = await res.json();
@@ -148,7 +158,7 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
           const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}`;
           const res = await fetch(url, {
             headers: { Authorization: `Bearer ${token}` },
-            next: { revalidate: 10 },
+            cache: 'no-store',
           });
           if (res.ok) {
             const json = await res.json();
@@ -177,7 +187,7 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
           const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}`;
           const res = await fetch(url, {
             headers: { Authorization: `Bearer ${token}` },
-            next: { revalidate: 10 },
+            cache: 'no-store',
           });
           if (res.ok) {
             const json = await res.json();
@@ -194,7 +204,7 @@ async function fetchFromSecureSource(): Promise<Record<string, Unit>> {
   if (rows.length === 0) {
     try {
       const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
-      const res = await fetch(url, { next: { revalidate: 10 } });
+      const res = await fetch(url, { cache: 'no-store' });
       if (res.ok) {
         const csv = await res.text();
         rows = parseCSV(csv);

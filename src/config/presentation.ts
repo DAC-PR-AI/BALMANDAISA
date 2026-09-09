@@ -23,8 +23,8 @@ export const TIMING = {
   /** Final summary with counters before loop restart */
   SUMMARY_DURATION: 6000,
 
-  /** How often to poll for new availability data (ms) */
-  DATA_REFRESH_INTERVAL: 15000,
+  /** How often to poll for new availability data (ms) - 3s near instant */
+  DATA_REFRESH_INTERVAL: 3000,
 
   /** Delay before auto-hiding presentation controls after inactivity */
   CONTROLS_AUTO_HIDE: 2500,

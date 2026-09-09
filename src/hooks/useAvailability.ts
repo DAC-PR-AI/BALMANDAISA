@@ -22,7 +22,11 @@ export function useAvailability() {
   const fetchAvailability = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/availability', { cache: 'no-store' });
+      // Force non-cached network request with timestamp query param
+      const res = await fetch(`/api/availability?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' },
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
       
@@ -47,11 +51,27 @@ export function useAvailability() {
     }
   }, []);
 
-  // Poll on interval
+  // Poll on 3-second interval + immediate fetch when window regains focus
   useEffect(() => {
     fetchAvailability();
-    const timer = setInterval(fetchAvailability, PRESENTATION_CONFIG.DATA_REFRESH_INTERVAL || 15000);
-    return () => clearInterval(timer);
+    const intervalMs = PRESENTATION_CONFIG.DATA_REFRESH_INTERVAL || 3000;
+    const timer = setInterval(fetchAvailability, intervalMs);
+
+    const handleFocus = () => {
+      fetchAvailability();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        fetchAvailability();
+      }
+    });
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, [fetchAvailability]);
 
   const getFloorUnitsList = useCallback((floor: number) => {

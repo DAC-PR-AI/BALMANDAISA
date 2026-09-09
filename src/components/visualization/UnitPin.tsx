@@ -28,6 +28,7 @@ export const UnitPin: React.FC<UnitPinProps> = ({
   const isAvailable = unit.status === 'AVAILABLE';
   const isBooked = unit.status === 'BOOKED';
   const isBlocked = unit.status === 'BLOCKED';
+  const isLoBlocked = unit.status === 'LO_BLOCKED';
 
   // Clamp anchor safely inside the floor-plan canvas
   const clampedLeft = Math.max(2.5, Math.min(97.5, xPct));
@@ -68,6 +69,8 @@ export const UnitPin: React.FC<UnitPinProps> = ({
             ? 'bg-[#2b060d]/95 text-rose-300 border border-rose-500/90 shadow-[0_1px_8px_rgba(244,63,94,0.35)] hover:bg-[#3d0a13] hover:border-rose-400 hover:scale-110'
             : isBlocked
             ? 'bg-[#281504]/95 text-amber-300 border border-amber-500/90 shadow-[0_1px_8px_rgba(245,158,11,0.35)] hover:bg-[#381f07] hover:border-amber-400 hover:scale-110'
+            : isLoBlocked
+            ? 'bg-[#2a1304]/95 text-orange-300 border border-orange-500/90 shadow-[0_1px_8px_rgba(249,115,22,0.35)] hover:bg-[#3d1c06] hover:border-orange-400 hover:scale-110'
             : 'bg-[#0e1118]/95 text-slate-400 border border-slate-700 hover:bg-[#181d28] hover:text-slate-200 hover:scale-105'
         } ${
           isHighlighted
@@ -84,6 +87,8 @@ export const UnitPin: React.FC<UnitPinProps> = ({
               ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,1)]'
               : isBlocked
               ? 'bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,1)]'
+              : isLoBlocked
+              ? 'bg-orange-400 shadow-[0_0_6px_rgba(249,115,22,1)]'
               : 'bg-slate-500'
           }`}
         />
@@ -121,10 +126,12 @@ export const UnitPin: React.FC<UnitPinProps> = ({
                 ? 'bg-rose-950 text-rose-300 border border-rose-500/40'
                 : isBlocked
                 ? 'bg-amber-950 text-amber-300 border border-amber-500/40'
+                : isLoBlocked
+                ? 'bg-orange-950 text-orange-300 border border-orange-500/40'
                 : 'bg-slate-900 text-slate-400 border border-slate-700/40'
             }`}
           >
-            {unit.status.replace(/_/g, ' ')}
+            {unit.status === 'LO_BLOCKED' ? 'LO-BLOCKED' : unit.status.replace(/_/g, ' ')}
           </span>
         </div>
 

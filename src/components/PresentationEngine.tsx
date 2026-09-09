@@ -144,6 +144,7 @@ export const PresentationEngine: React.FC = () => {
 
         {state.phase === 'ELEVATION_REVEAL' && (
           <ElevationReveal
+            overallStats={overallStats}
             getFloorStats={getFloorStats}
             onSelectFloor={floor => jumpToFloor(floor)}
           />

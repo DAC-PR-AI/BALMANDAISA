@@ -86,6 +86,7 @@ export function useAvailability() {
       available: floorUnits.filter(u => u.status === 'AVAILABLE').length,
       booked: floorUnits.filter(u => u.status === 'BOOKED').length,
       blocked: floorUnits.filter(u => u.status === 'BLOCKED').length,
+      loBlocked: floorUnits.filter(u => u.status === 'LO_BLOCKED').length,
       notForSale: floorUnits.filter(u => u.status === 'NOT_FOR_SALE').length,
     };
   }, [units]);
@@ -97,6 +98,7 @@ export function useAvailability() {
       available: allUnits.filter(u => u.status === 'AVAILABLE').length,
       booked: allUnits.filter(u => u.status === 'BOOKED').length,
       blocked: allUnits.filter(u => u.status === 'BLOCKED').length,
+      loBlocked: allUnits.filter(u => u.status === 'LO_BLOCKED').length,
       notForSale: allUnits.filter(u => u.status === 'NOT_FOR_SALE').length,
     };
   }, [units]);

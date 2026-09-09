@@ -5,7 +5,7 @@
 // ============================================================
 
 import React from 'react';
-import { PresentationPhase } from '@/types';
+import { PresentationPhase, FLOOR_TERMINOLOGY } from '@/types';
 
 interface PresentationControlsProps {
   phase: PresentationPhase;
@@ -102,6 +102,7 @@ export const PresentationControls: React.FC<PresentationControlsProps> = ({
               <button
                 key={floorNum}
                 onClick={() => onJumpToFloor(floorNum)}
+                title={FLOOR_TERMINOLOGY[floorNum]?.display || `${floorNum}F`}
                 className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-mono transition-all ${
                   isActive
                     ? 'bg-[#c5a869] text-black font-semibold'

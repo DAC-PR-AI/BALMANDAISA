@@ -6,7 +6,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { FloorSummary } from '@/types';
+import { FloorSummary, FLOOR_TERMINOLOGY } from '@/types';
 import { AnimatedCounter } from '../common/AnimatedCounter';
 
 interface FinalSummaryProps {
@@ -15,6 +15,7 @@ interface FinalSummaryProps {
     available: number;
     booked: number;
     blocked: number;
+    loBlocked: number;
     notForSale: number;
   };
   getFloorStats: (floor: number) => FloorSummary;
@@ -52,8 +53,8 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
           </div>
         </div>
 
-        {/* Discreet KPI Line */}
-        <div className="flex items-center gap-8 text-xs font-mono tracking-widest">
+        {/* Discreet KPI Line with all 5 Google Sheet Availability Categories */}
+        <div className="flex items-center gap-6 text-xs font-mono tracking-widest">
           <div className="flex items-baseline gap-2">
             <span className="text-white/40 uppercase text-[10px]">Total</span>
             <span className="text-lg font-light text-white">
@@ -81,6 +82,20 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
               <AnimatedCounter value={overallStats.blocked} />
             </span>
           </div>
+          <span className="text-white/15">/</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-orange-400/80 uppercase text-[10px]">LO-Blocked</span>
+            <span className="text-lg font-light text-orange-400">
+              <AnimatedCounter value={overallStats.loBlocked} />
+            </span>
+          </div>
+          <span className="text-white/15">/</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-slate-400/80 uppercase text-[10px]">NFS</span>
+            <span className="text-lg font-light text-slate-400">
+              <AnimatedCounter value={overallStats.notForSale} />
+            </span>
+          </div>
         </div>
       </div>
 
@@ -88,7 +103,7 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
       <div className="my-auto py-4">
         <div className="grid grid-cols-13 gap-2 border-b border-white/10 pb-2 text-[10px] font-mono tracking-widest text-white/40 uppercase text-center">
           {floors.map(f => (
-            <div key={f}>{f.toString().padStart(2, '0')}F</div>
+            <div key={f}>{FLOOR_TERMINOLOGY[f]?.short || `${f.toString().padStart(2, '0')}F`}</div>
           ))}
         </div>
 
@@ -99,6 +114,7 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
               <div
                 key={floorNum}
                 onClick={() => onSelectFloor?.(floorNum)}
+                title={FLOOR_TERMINOLOGY[floorNum]?.display}
                 className="flex flex-col items-center justify-between p-3 rounded border border-white/5 bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#c5a869]/40 cursor-pointer transition-all duration-200"
               >
                 <span className="text-xs font-mono font-medium text-white mb-2">

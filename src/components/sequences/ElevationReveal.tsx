@@ -9,11 +9,20 @@ import { BuildingElevation } from '../visualization/BuildingElevation';
 import { FloorSummary } from '@/types';
 
 interface ElevationRevealProps {
+  overallStats?: {
+    total: number;
+    available: number;
+    booked: number;
+    blocked: number;
+    loBlocked: number;
+    notForSale: number;
+  };
   getFloorStats: (floor: number) => FloorSummary;
   onSelectFloor?: (floor: number) => void;
 }
 
 export const ElevationReveal: React.FC<ElevationRevealProps> = ({
+  overallStats,
   getFloorStats,
   onSelectFloor,
 }) => {
@@ -29,6 +38,7 @@ export const ElevationReveal: React.FC<ElevationRevealProps> = ({
       </div>
 
       <BuildingElevation
+        overallStats={overallStats}
         getFloorStats={getFloorStats}
         onSelectFloor={onSelectFloor}
       />

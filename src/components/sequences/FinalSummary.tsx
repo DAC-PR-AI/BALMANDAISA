@@ -23,62 +23,62 @@ interface FinalSummaryProps {
   onSelectFloor?: (floor: number) => void;
 }
 
-// Translucent Architectural Glass Palette (65–80% opacity with edge definitions)
+// Modern Translucent Architectural Glass Palette — Champagne Gold & Bordeaux
 const SEGMENTS = [
   {
     key: 'available' as const,
     label: 'Available',
-    fill: 'rgba(30, 107, 82, 0.78)',
-    border: 'rgba(61, 163, 130, 0.50)',
-    hoverFill: 'rgba(36, 125, 94, 0.92)',
-    hoverBorder: 'rgba(74, 186, 150, 0.75)',
-    textClass: 'text-[#3da382]',
-    legendFill: 'rgba(30, 107, 82, 0.85)',
-    legendBorder: 'border-[#3da382]/50',
+    fill: 'rgba(197, 168, 105, 0.38)',
+    border: 'rgba(212, 175, 55, 0.75)',
+    hoverFill: 'rgba(197, 168, 105, 0.62)',
+    hoverBorder: 'rgba(240, 215, 140, 0.95)',
+    textClass: 'text-[#c5a869]',
+    legendFill: 'rgba(197, 168, 105, 0.45)',
+    legendBorder: 'border-[#c5a869]/70',
   },
   {
     key: 'booked' as const,
     label: 'Booked',
-    fill: 'rgba(122, 31, 51, 0.72)',
-    border: 'rgba(184, 79, 103, 0.45)',
-    hoverFill: 'rgba(143, 38, 61, 0.88)',
-    hoverBorder: 'rgba(206, 92, 118, 0.70)',
-    textClass: 'text-[#b84f67]',
-    legendFill: 'rgba(122, 31, 51, 0.85)',
-    legendBorder: 'border-[#b84f67]/50',
+    fill: 'rgba(136, 19, 55, 0.42)',
+    border: 'rgba(190, 24, 93, 0.70)',
+    hoverFill: 'rgba(159, 18, 57, 0.65)',
+    hoverBorder: 'rgba(244, 63, 94, 0.90)',
+    textClass: 'text-[#be185d]',
+    legendFill: 'rgba(136, 19, 55, 0.48)',
+    legendBorder: 'border-[#be185d]/70',
   },
   {
     key: 'blocked' as const,
     label: 'Blocked',
-    fill: 'rgba(158, 120, 47, 0.68)',
-    border: 'rgba(197, 158, 75, 0.40)',
-    hoverFill: 'rgba(179, 137, 56, 0.85)',
-    hoverBorder: 'rgba(219, 177, 89, 0.65)',
-    textClass: 'text-[#c59e4b]',
-    legendFill: 'rgba(158, 120, 47, 0.80)',
-    legendBorder: 'border-[#c59e4b]/50',
+    fill: 'rgba(146, 96, 26, 0.38)',
+    border: 'rgba(197, 138, 47, 0.70)',
+    hoverFill: 'rgba(180, 115, 27, 0.62)',
+    hoverBorder: 'rgba(230, 165, 60, 0.90)',
+    textClass: 'text-[#c58a2f]',
+    legendFill: 'rgba(146, 96, 26, 0.45)',
+    legendBorder: 'border-[#c58a2f]/70',
   },
   {
     key: 'loBlocked' as const,
     label: 'LO-Blocked',
-    fill: 'rgba(138, 67, 37, 0.68)',
-    border: 'rgba(184, 106, 71, 0.40)',
-    hoverFill: 'rgba(158, 78, 44, 0.85)',
-    hoverBorder: 'rgba(206, 120, 81, 0.65)',
-    textClass: 'text-[#b86a47]',
-    legendFill: 'rgba(138, 67, 37, 0.80)',
-    legendBorder: 'border-[#b86a47]/50',
+    fill: 'rgba(124, 45, 18, 0.38)',
+    border: 'rgba(194, 65, 12, 0.70)',
+    hoverFill: 'rgba(154, 52, 18, 0.62)',
+    hoverBorder: 'rgba(234, 88, 12, 0.88)',
+    textClass: 'text-[#ea580c]',
+    legendFill: 'rgba(124, 45, 18, 0.45)',
+    legendBorder: 'border-[#ea580c]/70',
   },
   {
     key: 'notForSale' as const,
     label: 'NFS',
-    fill: 'rgba(60, 74, 92, 0.60)',
-    border: 'rgba(107, 125, 148, 0.35)',
-    hoverFill: 'rgba(74, 91, 112, 0.78)',
-    hoverBorder: 'rgba(127, 147, 173, 0.55)',
-    textClass: 'text-[#6b7d94]',
-    legendFill: 'rgba(60, 74, 92, 0.75)',
-    legendBorder: 'border-[#6b7d94]/50',
+    fill: 'rgba(51, 65, 85, 0.30)',
+    border: 'rgba(100, 116, 139, 0.55)',
+    hoverFill: 'rgba(71, 85, 105, 0.52)',
+    hoverBorder: 'rgba(148, 163, 184, 0.80)',
+    textClass: 'text-[#94a3b8]',
+    legendFill: 'rgba(51, 65, 85, 0.38)',
+    legendBorder: 'border-[#94a3b8]/60',
   },
 ];
 
@@ -158,7 +158,7 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
 
   // Y-axis tick intervals
   const yTicks = useMemo(() => {
-    const step = maxUnits <= 12 ? 3 : maxUnits <= 20 ? 4 : 5;
+    const step = maxUnits <= 16 ? 4 : maxUnits <= 24 ? 6 : 8;
     const ticks: number[] = [];
     for (let i = 0; i <= maxUnits; i += step) {
       ticks.push(i);
@@ -166,27 +166,46 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
     return ticks;
   }, [maxUnits]);
 
+  // Active hover summary data
+  const activeHoverData = useMemo(() => {
+    if (hoveredFloor === null) return null;
+    return floorData.find(d => d.floor === hoveredFloor) || null;
+  }, [hoveredFloor, floorData]);
+
   return (
-    <div className="relative w-full h-full flex flex-col justify-between select-none p-6 sm:p-8 lg:p-10 max-w-7xl mx-auto">
-      
-      {/* ── Top Header: Logo + Title + Executive Summary Strip ── */}
-      <div className="w-full flex flex-col md:flex-row items-start md:items-baseline justify-between border-b border-white/[0.08] pb-4 gap-4">
-        <div className="flex items-center gap-5">
-          <div className="relative h-9 w-32 flex-shrink-0">
+    <div className="relative w-full h-full min-h-[580px] flex flex-col justify-between p-4 sm:p-6 lg:p-8 bg-[#040608] text-white select-none overflow-hidden">
+      {/* Background Subtle Gradient Glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-20"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 35%, rgba(197, 168, 105, 0.08), transparent 70%)',
+        }}
+      />
+
+      {/* ── Top Header Bar: Luxury Title + Executive Stats ── */}
+      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-white/[0.08]">
+        {/* Project Branding */}
+        <div className="flex items-center gap-4">
+          <div className="relative h-10 w-36 flex-shrink-0">
             <Image
               src="/branding/balmandaisa-logo.png"
               alt="Balmandaisa by DAC"
               fill
               className="object-contain"
+              sizes="144px"
+              priority
             />
           </div>
-          <div className="h-7 w-[1px] bg-white/10 hidden sm:block" />
-          <div className="flex flex-col">
-            <span className="text-[9px] tracking-[0.35em] text-[#c5a869] font-mono font-medium uppercase">
-              Project Overview
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-white/95">
-              Availability Matrix
+          <div className="h-7 w-[1px] bg-white/15 hidden sm:block" />
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c5a869] animate-pulse" />
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#c5a869] uppercase font-semibold">
+                Live Availability Matrix
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-light tracking-wide text-white font-sans mt-0.5">
+              Tower Inventory Summary
             </h2>
           </div>
         </div>
@@ -201,36 +220,36 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
           </div>
           <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-[#3da382] uppercase text-[9px] font-sans font-medium">Available</span>
-            <span className="text-lg font-light text-[#3da382]">
+            <span className="text-[#c5a869] uppercase text-[9px] font-sans font-medium">Available</span>
+            <span className="text-lg font-light text-[#c5a869]">
               <AnimatedCounter value={overallStats.available} />
             </span>
           </div>
           <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-[#b84f67] uppercase text-[9px] font-sans font-medium">Booked</span>
-            <span className="text-lg font-light text-[#b84f67]">
+            <span className="text-[#be185d] uppercase text-[9px] font-sans font-medium">Booked</span>
+            <span className="text-lg font-light text-[#be185d]">
               <AnimatedCounter value={overallStats.booked} />
             </span>
           </div>
           <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-[#c59e4b] uppercase text-[9px] font-sans font-medium">Blocked</span>
-            <span className="text-lg font-light text-[#c59e4b]">
+            <span className="text-[#c58a2f] uppercase text-[9px] font-sans font-medium">Blocked</span>
+            <span className="text-lg font-light text-[#c58a2f]">
               <AnimatedCounter value={overallStats.blocked} />
             </span>
           </div>
           <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-[#b86a47] uppercase text-[9px] font-sans font-medium">LO-Blocked</span>
-            <span className="text-lg font-light text-[#b86a47]">
+            <span className="text-[#ea580c] uppercase text-[9px] font-sans font-medium">LO-Blocked</span>
+            <span className="text-lg font-light text-[#ea580c]">
               <AnimatedCounter value={overallStats.loBlocked} />
             </span>
           </div>
           <span className="text-white/10">/</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-[#6b7d94] uppercase text-[9px] font-sans font-medium">NFS</span>
-            <span className="text-lg font-light text-[#6b7d94]">
+            <span className="text-[#94a3b8] uppercase text-[9px] font-sans font-medium">NFS</span>
+            <span className="text-lg font-light text-[#94a3b8]">
               <AnimatedCounter value={overallStats.notForSale} />
             </span>
           </div>
@@ -313,18 +332,21 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
                       </span>
                     </div>
 
-                    {/* Slim Refined Translucent Bar Container */}
+                    {/* Slim Refined Translucent Architectural Glass Bar Container */}
                     <div
-                      className={`w-full max-w-[28px] sm:max-w-[32px] md:max-w-[34px] rounded-t-[3px] overflow-hidden flex flex-col transition-all duration-200 border ${
+                      className={`w-full max-w-[28px] sm:max-w-[32px] md:max-w-[34px] rounded-t-[4px] overflow-hidden flex flex-col transition-all duration-200 border backdrop-blur-md relative ${
                         isHovered
-                          ? 'border-[#c5a869]/70 shadow-[0_0_12px_rgba(197,168,105,0.15)] ring-1 ring-[#c5a869]/30'
-                          : 'border-white/[0.08]'
+                          ? 'border-[#c5a869]/80 shadow-[0_0_16px_rgba(197,168,105,0.25)] ring-1 ring-[#c5a869]/40 bg-white/[0.04]'
+                          : 'border-white/15 bg-white/[0.02] shadow-[0_4px_16px_rgba(0,0,0,0.6)]'
                       }`}
                       style={{
                         height: `${barHeightPct}%`,
                       }}
                     >
-                      {/* Segments Stacked Inside as Translucent Layers (Top-to-Bottom: NFS, LO-Blocked, Blocked, Booked, Available) */}
+                      {/* Architectural Glass Reflection Sheen */}
+                      <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white/[0.08] to-transparent pointer-events-none z-10" />
+
+                      {/* Segments Stacked Inside as Translucent Architectural Layers (Top-to-Bottom: NFS, LO-Blocked, Blocked, Booked, Available) */}
                       {SEGMENTS.slice().reverse().map(seg => {
                         const count = fd[seg.key];
                         if (count <= 0 || fd.total <= 0) return null;
@@ -333,16 +355,17 @@ export const FinalSummary: React.FC<FinalSummaryProps> = ({
                         return (
                           <div
                             key={seg.key}
-                            className="w-full relative flex items-center justify-center transition-all duration-150 border-b border-black/30 first:border-b-0"
+                            className="w-full relative flex items-center justify-center transition-all duration-150 border-b border-black/40 first:border-b-0"
                             style={{
                               height: `${segmentHeightPct}%`,
                               backgroundColor: isHovered ? seg.hoverFill : seg.fill,
                               borderTop: `1px solid ${isHovered ? seg.hoverBorder : seg.border}`,
+                              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.15)',
                             }}
                           >
                             {/* Segment value inside if sufficient vertical height */}
                             {segmentHeightPct >= 22 && (
-                              <span className="text-[9px] font-mono font-medium text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
+                              <span className="text-[9px] font-mono font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] relative z-20">
                                 {count}
                               </span>
                             )}

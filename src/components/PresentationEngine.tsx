@@ -132,6 +132,7 @@ export const PresentationEngine: React.FC = () => {
         onToggleFullscreen={toggleFullscreen}
         isFullscreen={isFullscreen}
         visible={controlsVisible}
+        phase={state.phase}
       />
 
       {/* Main Full-Screen Architectural Viewport (The Hero) */}

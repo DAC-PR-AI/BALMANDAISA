@@ -62,16 +62,16 @@ export const UnitPin: React.FC<UnitPinProps> = ({
     >
       {/* Compact Architectural Tag (Floor Plan Visibility > Marker Size) */}
       <div
-        className={`relative flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-0.5 rounded font-mono text-[11px] md:text-[12px] font-bold tracking-tight transition-all duration-200 shadow-sm backdrop-blur-sm overflow-hidden ${
+        className={`relative flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-0.5 rounded font-mono text-[11px] md:text-[12px] font-bold tracking-tight transition-all duration-200 shadow-sm backdrop-blur-md overflow-hidden ${
           isAvailable
-            ? 'bg-[#0a231b]/95 text-[#3da382] border border-[#1e6b52]/80 unit-pin-available-live hover:bg-[#10382b] hover:border-[#247d5e] hover:scale-110'
+            ? 'bg-[#241e12]/85 text-[#e5cb89] border border-[#c5a869]/80 unit-pin-available-live hover:bg-[#382f1d]/90 hover:border-[#d4af37] hover:scale-110'
             : isBooked
-            ? 'bg-[#220a11]/95 text-[#b84f67] border border-[#7a1f33]/70 hover:bg-[#300e18] hover:border-[#8f263d] hover:scale-110 opacity-90'
+            ? 'bg-[#280511]/85 text-[#fda4af] border border-[#881337]/70 hover:bg-[#3d081a]/90 hover:border-[#be185d] hover:scale-110 opacity-90'
             : isBlocked
-            ? 'bg-[#201809]/95 text-[#c59e4b] border border-[#9e782f]/70 hover:bg-[#2d220d] hover:border-[#b38938] hover:scale-110'
+            ? 'bg-[#261705]/85 text-[#e0a248] border border-[#92601a]/70 hover:bg-[#382207]/90 hover:border-[#c58a2f] hover:scale-110'
             : isLoBlocked
-            ? 'bg-[#1e0e07]/95 text-[#b86a47] border border-[#8a4325]/70 hover:bg-[#2a140a] hover:border-[#9e4e2c] hover:scale-110'
-            : 'bg-[#0e1218]/95 text-[#6b7d94] border border-[#3c4a5c]/60 hover:bg-[#141b24] hover:text-slate-200 hover:scale-105'
+            ? 'bg-[#200903]/85 text-[#ea580c] border border-[#7c2d12]/70 hover:bg-[#330f05]/90 hover:border-[#c2410c] hover:scale-110'
+            : 'bg-[#0f172a]/85 text-[#94a3b8] border border-[#334155]/60 hover:bg-[#1e293b]/90 hover:text-white hover:scale-105'
         } ${
           isHighlighted
             ? 'scale-125 z-40 ring-2 ring-[#c5a869] border-[#c5a869] bg-black text-white'
@@ -85,14 +85,14 @@ export const UnitPin: React.FC<UnitPinProps> = ({
         <span
           className={`w-1.5 h-1.5 rounded-full flex-shrink-0 relative z-10 ${
             isAvailable
-              ? 'bg-[#1e6b52] shadow-[0_0_5px_rgba(30,107,82,0.8)]'
+              ? 'bg-[#c5a869] shadow-[0_0_6px_rgba(197,168,105,0.9)]'
               : isBooked
-              ? 'bg-[#7a1f33] shadow-[0_0_5px_rgba(122,31,51,0.8)]'
+              ? 'bg-[#881337] shadow-[0_0_5px_rgba(136,19,55,0.8)]'
               : isBlocked
-              ? 'bg-[#9e782f] shadow-[0_0_5px_rgba(158,120,47,0.8)]'
+              ? 'bg-[#92601a] shadow-[0_0_5px_rgba(146,96,26,0.8)]'
               : isLoBlocked
-              ? 'bg-[#8a4325] shadow-[0_0_5px_rgba(138,67,37,0.8)]'
-              : 'bg-[#3c4a5c]'
+              ? 'bg-[#7c2d12] shadow-[0_0_5px_rgba(124,45,18,0.8)]'
+              : 'bg-[#475569]'
           }`}
         />
         <span className="font-bold tracking-wider relative z-10">

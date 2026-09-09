@@ -18,6 +18,7 @@ interface BrandHeaderProps {
   onToggleFullscreen?: () => void;
   isFullscreen?: boolean;
   visible?: boolean;
+  phase?: string;
 }
 
 export const BrandHeader: React.FC<BrandHeaderProps> = ({
@@ -26,15 +27,18 @@ export const BrandHeader: React.FC<BrandHeaderProps> = ({
   onToggleFullscreen,
   isFullscreen = false,
   visible = true,
+  phase,
 }) => {
+  const isIntroOrSummary = phase === 'INTRO' || phase === 'SUMMARY';
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 px-8 py-4 flex items-center justify-between z-50 pointer-events-none transition-opacity duration-700 ${
         visible ? 'opacity-100' : 'opacity-0'
       }`}
     >
-      {/* Left: Understated Editorial Typography Mark */}
-      <div className="flex items-center gap-4">
+      {/* Left: Understated Editorial Typography Mark (Hidden on Intro & Summary to prevent overlap) */}
+      <div className={`flex items-center gap-4 transition-opacity duration-300 ${isIntroOrSummary ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <span className="text-xs font-mono font-medium tracking-[0.3em] text-white/70 uppercase">
           BALMANDAISA
         </span>

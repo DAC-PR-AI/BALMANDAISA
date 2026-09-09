@@ -73,15 +73,15 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
       className="fixed inset-0 z-[100] flex flex-col justify-between items-center p-8 sm:p-12 bg-[#020408]/92 backdrop-blur-2xl cursor-pointer select-none overflow-hidden transition-all duration-700 animate-in fade-in"
       onClick={onDismiss}
     >
-      {/* ── Ambient Radial Atmosphere (Ruby / Emerald / Gold) ── */}
+      {/* ── Ambient Radial Atmosphere (Bordeaux Wine / Champagne Gold / Bronze) ── */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-1000"
         style={{
           background: isBooked
-            ? 'radial-gradient(circle at 50% 50%, rgba(190, 24, 58, 0.16) 0%, rgba(197, 168, 105, 0.06) 35%, transparent 70%)'
+            ? 'radial-gradient(circle at 50% 50%, rgba(136, 19, 55, 0.22) 0%, rgba(197, 168, 105, 0.08) 40%, transparent 70%)'
             : isAvailable
-            ? 'radial-gradient(circle at 50% 50%, rgba(46, 158, 108, 0.18) 0%, rgba(56, 181, 125, 0.06) 35%, transparent 70%)'
-            : 'radial-gradient(circle at 50% 50%, rgba(196, 121, 23, 0.16) 0%, transparent 70%)',
+            ? 'radial-gradient(circle at 50% 50%, rgba(197, 168, 105, 0.25) 0%, rgba(212, 175, 55, 0.10) 40%, transparent 70%)'
+            : 'radial-gradient(circle at 50% 50%, rgba(146, 96, 26, 0.20) 0%, transparent 70%)',
         }}
       />
 
@@ -95,8 +95,8 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
             top: p.top,
             width: `${p.size}px`,
             height: `${p.size}px`,
-            backgroundColor: isBooked ? '#be183a' : isAvailable ? '#2e9e6c' : '#D4AF37',
-            boxShadow: `0 0 10px ${isBooked ? '#be183a' : isAvailable ? '#2e9e6c' : '#D4AF37'}`,
+            backgroundColor: isBooked ? '#881337' : isAvailable ? '#c5a869' : '#92601a',
+            boxShadow: `0 0 10px ${isBooked ? '#881337' : isAvailable ? '#c5a869' : '#92601a'}`,
             animationDelay: p.delay,
             animationDuration: p.dur,
           }}
@@ -131,7 +131,7 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
         <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-white/50 uppercase">
           <span
             className={`w-2 h-2 rounded-full ${
-              isBooked ? 'bg-[#be183a] shadow-[0_0_8px_rgba(190,24,58,0.8)]' : 'bg-[#2e9e6c] shadow-[0_0_8px_rgba(46,158,108,0.8)]'
+              isBooked ? 'bg-[#881337] shadow-[0_0_8px_rgba(136,19,55,0.8)]' : 'bg-[#c5a869] shadow-[0_0_8px_rgba(197,168,105,0.8)]'
             }`}
           />
           <span>Real-Time Sync</span>
@@ -154,8 +154,8 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
             className="absolute inset-0 -inset-x-12 blur-3xl opacity-35 pointer-events-none celebration-glow-aura"
             style={{
               background: isBooked
-                ? 'radial-gradient(circle, rgba(190,24,58,0.5) 0%, transparent 70%)'
-                : 'radial-gradient(circle, rgba(46,158,108,0.5) 0%, transparent 70%)',
+                ? 'radial-gradient(circle, rgba(136,19,55,0.5) 0%, transparent 70%)'
+                : 'radial-gradient(circle, rgba(197,168,105,0.5) 0%, transparent 70%)',
             }}
           />
           <h1 className="relative text-6xl sm:text-8xl md:text-9xl font-light tracking-tight text-white font-serif uppercase drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)]">
@@ -169,10 +169,10 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
           <span
             className={`text-2xl sm:text-4xl md:text-5xl font-mono font-extrabold tracking-[0.35em] uppercase drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)] ${
               isBooked
-                ? 'text-[#d42b4e] drop-shadow-[0_0_20px_rgba(190,24,58,0.5)]'
+                ? 'text-[#be185d] drop-shadow-[0_0_20px_rgba(136,19,55,0.6)]'
                 : isAvailable
-                ? 'text-[#38b57d] drop-shadow-[0_0_20px_rgba(46,158,108,0.5)]'
-                : 'text-[#db8a22] drop-shadow-[0_0_20px_rgba(196,121,23,0.5)]'
+                ? 'text-[#c5a869] drop-shadow-[0_0_20px_rgba(197,168,105,0.6)]'
+                : 'text-[#c58a2f] drop-shadow-[0_0_20px_rgba(146,96,26,0.6)]'
             }`}
           >
             {isBooked ? 'BOOKED' : isAvailable ? 'AVAILABLE' : activeChange.newStatus.replace(/_/g, ' ')}

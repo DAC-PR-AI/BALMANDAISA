@@ -31,25 +31,25 @@ export const LiveIndicator: React.FC<LiveIndicatorProps> = ({
       : null;
 
   return (
-    <div className="flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md">
-      <span className="relative flex h-3 w-3">
+    <div className="flex items-center gap-3.5 px-4 py-2 rounded-full bg-black/60 border-2 border-white/20 backdrop-blur-md shadow-lg">
+      <span className="relative flex h-3.5 w-3.5">
         {isConnected ? (
           <>
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80"></span>
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]"></span>
           </>
         ) : (
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-amber-500"></span>
         )}
       </span>
       <div className="flex flex-col">
-        <span className="text-xs sm:text-sm font-semibold tracking-wider text-gray-100">
+        <span className="text-xs sm:text-sm md:text-base font-bold tracking-wider text-white">
           {isConnected ? 'LIVE SYNC' : 'OFFLINE MODE'}
         </span>
         {formattedTime && (
           <span
             suppressHydrationWarning
-            className="text-[10px] sm:text-xs text-gray-300 font-mono"
+            className="text-xs sm:text-sm text-gray-300 font-mono font-medium"
           >
             {formattedTime}
           </span>

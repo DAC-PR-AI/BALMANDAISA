@@ -41,51 +41,51 @@ export const IntroSequence: React.FC<IntroSequenceProps> = ({
       </div>
 
       {/* Center Grand Architectural Identity & Project Logo */}
-      <div className="flex flex-col items-center text-center my-auto max-w-4xl mx-auto space-y-6">
+      <div className="flex flex-col items-center text-center my-auto max-w-5xl mx-auto space-y-7">
         {/* Actual Project Brand Logo with refined luxury reveal */}
-        <div className="relative h-28 w-80 sm:w-96 md:w-[440px] transform transition-transform duration-1000 ease-out">
+        <div className="relative h-32 sm:h-36 w-88 sm:w-[480px] md:w-[540px] transform transition-transform duration-1000 ease-out">
           <Image
             src="/branding/balmandaisa-logo.png"
             alt="Balmandaisa by DAC"
             fill
-            className="object-contain filter drop-shadow-[0_4px_25px_rgba(197,168,105,0.35)]"
+            className="object-contain filter drop-shadow-[0_4px_30px_rgba(197,168,105,0.45)]"
             priority
           />
         </div>
 
-        <span className="text-xs tracking-[0.5em] text-[#c5a869] uppercase font-mono mt-2 block">
+        <span className="text-sm sm:text-base md:text-lg tracking-[0.5em] text-[#c5a869] uppercase font-mono mt-3 block font-bold">
           A SIGNATURE RESIDENTIAL ADDRESS
         </span>
 
-        <p className="text-lg sm:text-xl font-light italic text-white/60 max-w-xl leading-relaxed">
+        <p className="text-xl sm:text-2xl md:text-3xl font-light italic text-white/80 max-w-2xl leading-relaxed font-serif">
           Thirteen residential levels of contemporary architectural luxury.
         </p>
 
         {/* Minimal Typographic Stats Line */}
-        <div className="flex items-center justify-center gap-8 sm:gap-14 pt-8 text-xs font-mono tracking-widest text-white/60 border-t border-white/10 w-full max-w-2xl">
+        <div className="flex items-center justify-center gap-10 sm:gap-16 lg:gap-20 pt-8 text-sm sm:text-base font-mono tracking-widest text-white/70 border-t-2 border-white/15 w-full max-w-3xl">
           <div className="flex flex-col items-center">
-            <span className="text-3xl font-light text-white font-mono mb-1">13</span>
-            <span className="text-[10px] tracking-[0.25em] text-white/40 uppercase">Floors</span>
+            <span className="text-4xl sm:text-5xl lg:text-6xl font-light text-white font-mono mb-1">13</span>
+            <span className="text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase font-semibold">Floors</span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/20">/</span>
           <div className="flex flex-col items-center">
-            <span className="text-3xl font-light text-white font-mono mb-1">
+            <span className="text-4xl sm:text-5xl lg:text-6xl font-light text-white font-mono mb-1">
               <AnimatedCounter value={overallStats.total} />
             </span>
-            <span className="text-[10px] tracking-[0.25em] text-white/40 uppercase">Residences</span>
+            <span className="text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase font-semibold">Residences</span>
           </div>
-          <span className="text-white/15">/</span>
+          <span className="text-white/20">/</span>
           <div className="flex flex-col items-center">
-            <span className="text-3xl font-light text-emerald-400 font-mono mb-1">
+            <span className="text-4xl sm:text-5xl lg:text-6xl font-light text-emerald-400 font-mono mb-1">
               <AnimatedCounter value={overallStats.available} />
             </span>
-            <span className="text-[10px] tracking-[0.25em] text-emerald-400/70 uppercase">Available</span>
+            <span className="text-xs sm:text-sm tracking-[0.25em] text-emerald-400/80 uppercase font-semibold">Available</span>
           </div>
         </div>
       </div>
 
       {/* Bottom Minimal Hint */}
-      <div className="flex items-center justify-between text-[10px] text-white/30 tracking-[0.25em] uppercase border-t border-white/5 pt-3">
+      <div className="flex items-center justify-between text-xs sm:text-sm text-white/40 tracking-[0.25em] uppercase border-t border-white/10 pt-3 font-mono">
         <span>ARCHITECTURAL PRESENTATION</span>
         <span>STARTING AUTOMATED SHOWCASE</span>
       </div>

@@ -1,8 +1,8 @@
 'use client';
 
 // ============================================================
-// BALMANDAISA — Full-Screen Cinematic Luxury Celebration &
-// Opportunity Experience (Zero Technical Boxed Modals)
+// BALMANDAISA — Full-Screen Cinematic Luxury Booking Celebration
+// Triggered exclusively when a unit transitions AVAILABLE -> BOOKED
 // ============================================================
 
 import React, { useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ interface AvailabilityOverlayProps {
   onDismiss?: () => void;
 }
 
-// Particle specs for subtle luxury golden/crimson/emerald embers
+// Subtle luxury particles (Velvet Bordeaux & Champagne Gold embers)
 const PARTICLES = [
   { left: '15%', top: '65%', size: 4, delay: '0s', dur: '3.2s' },
   { left: '25%', top: '75%', size: 3, delay: '0.6s', dur: '4s' },
@@ -35,19 +35,19 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
 }) => {
   const [progress, setProgress] = useState(100);
 
-  // Take the most recent change event
+  // Take the most recent change event — ONLY process genuine BOOKED events
   const activeChange = changes && changes.length > 0 ? changes[0] : null;
 
-  // 3.4-second auto-dismiss timer with smooth return to dashboard
+  // Auto-dismiss timer (3.2 seconds) with smooth return to dashboard
   useEffect(() => {
-    if (!activeChange) {
+    if (!activeChange || activeChange.newStatus !== 'BOOKED') {
       setProgress(100);
       return;
     }
 
     setProgress(100);
     const startTime = Date.now();
-    const duration = 3400;
+    const duration = 3200;
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -56,32 +56,28 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
 
       if (remaining <= 0) {
         clearInterval(interval);
+        onDismiss?.();
       }
     }, 25);
 
     return () => clearInterval(interval);
-  }, [activeChange]);
+  }, [activeChange, onDismiss]);
 
-  if (!activeChange) return null;
+  // STRICT REQUIREMENT: Only display full-screen overlay for BOOKED status transitions
+  if (!activeChange || activeChange.newStatus !== 'BOOKED') return null;
 
   const unitDetails = units[activeChange.unitId];
-  const isBooked = activeChange.newStatus === 'BOOKED';
-  const isAvailable = activeChange.newStatus === 'AVAILABLE';
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex flex-col justify-between items-center p-8 sm:p-12 bg-[#020408]/92 backdrop-blur-2xl cursor-pointer select-none overflow-hidden transition-all duration-700 animate-in fade-in"
+      className="fixed inset-0 z-[100] flex flex-col justify-between items-center p-8 sm:p-12 bg-[#020408]/94 backdrop-blur-2xl cursor-pointer select-none overflow-hidden transition-all duration-700 animate-in fade-in"
       onClick={onDismiss}
     >
-      {/* ── Ambient Radial Atmosphere (Bordeaux Wine / Champagne Gold / Bronze) ── */}
+      {/* ── Ambient Radial Atmosphere (Bordeaux Wine & Champagne Gold Backglow) ── */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-1000"
         style={{
-          background: isBooked
-            ? 'radial-gradient(circle at 50% 50%, rgba(136, 19, 55, 0.22) 0%, rgba(197, 168, 105, 0.08) 40%, transparent 70%)'
-            : isAvailable
-            ? 'radial-gradient(circle at 50% 50%, rgba(197, 168, 105, 0.25) 0%, rgba(212, 175, 55, 0.10) 40%, transparent 70%)'
-            : 'radial-gradient(circle at 50% 50%, rgba(146, 96, 26, 0.20) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at 50% 50%, rgba(136, 19, 55, 0.28) 0%, rgba(197, 168, 105, 0.08) 40%, transparent 70%)',
         }}
       />
 
@@ -95,8 +91,8 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
             top: p.top,
             width: `${p.size}px`,
             height: `${p.size}px`,
-            backgroundColor: isBooked ? '#881337' : isAvailable ? '#c5a869' : '#92601a',
-            boxShadow: `0 0 10px ${isBooked ? '#881337' : isAvailable ? '#c5a869' : '#92601a'}`,
+            backgroundColor: idx % 2 === 0 ? '#881337' : '#D4AF37',
+            boxShadow: `0 0 12px ${idx % 2 === 0 ? '#881337' : '#D4AF37'}`,
             animationDelay: p.delay,
             animationDuration: p.dur,
           }}
@@ -124,16 +120,12 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
           </div>
           <div className="h-4 w-[1px] bg-white/20" />
           <span className="text-[10px] font-mono tracking-[0.35em] text-[#c5a869] uppercase font-medium">
-            {isBooked ? 'Acquisition Announcement' : 'Inventory Release'}
+            Live Acquisition Celebration
           </span>
         </div>
 
         <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-white/50 uppercase">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              isBooked ? 'bg-[#881337] shadow-[0_0_8px_rgba(136,19,55,0.8)]' : 'bg-[#c5a869] shadow-[0_0_8px_rgba(197,168,105,0.8)]'
-            }`}
-          />
+          <span className="w-2 h-2 rounded-full bg-[#881337] shadow-[0_0_8px_rgba(136,19,55,0.8)]" />
           <span>Real-Time Sync</span>
         </div>
       </div>
@@ -151,11 +143,9 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
         <div className="relative">
           {/* Subtle Backglow behind unit text */}
           <div
-            className="absolute inset-0 -inset-x-12 blur-3xl opacity-35 pointer-events-none celebration-glow-aura"
+            className="absolute inset-0 -inset-x-12 blur-3xl opacity-40 pointer-events-none celebration-glow-aura"
             style={{
-              background: isBooked
-                ? 'radial-gradient(circle, rgba(136,19,55,0.5) 0%, transparent 70%)'
-                : 'radial-gradient(circle, rgba(197,168,105,0.5) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(136,19,55,0.6) 0%, rgba(197,168,105,0.2) 50%, transparent 70%)',
             }}
           />
           <h1 className="relative text-6xl sm:text-8xl md:text-9xl font-light tracking-tight text-white font-serif uppercase drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)]">
@@ -163,29 +153,21 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
           </h1>
         </div>
 
-        {/* Status Line ✦ BOOKED ✦ or ✦ AVAILABLE ✦ */}
+        {/* Status Line ✦ BOOKED ✦ */}
         <div className="mt-4 sm:mt-6 flex items-center justify-center gap-3 sm:gap-4">
           <span className="text-xl sm:text-2xl text-[#D4AF37] select-none">✦</span>
-          <span
-            className={`text-2xl sm:text-4xl md:text-5xl font-mono font-extrabold tracking-[0.35em] uppercase drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)] ${
-              isBooked
-                ? 'text-[#be185d] drop-shadow-[0_0_20px_rgba(136,19,55,0.6)]'
-                : isAvailable
-                ? 'text-[#c5a869] drop-shadow-[0_0_20px_rgba(197,168,105,0.6)]'
-                : 'text-[#c58a2f] drop-shadow-[0_0_20px_rgba(146,96,26,0.6)]'
-            }`}
-          >
-            {isBooked ? 'BOOKED' : isAvailable ? 'AVAILABLE' : activeChange.newStatus.replace(/_/g, ' ')}
+          <span className="text-2xl sm:text-4xl md:text-5xl font-mono font-extrabold tracking-[0.35em] uppercase text-[#be185d] drop-shadow-[0_0_25px_rgba(136,19,55,0.7)]">
+            BOOKED
           </span>
           <span className="text-xl sm:text-2xl text-[#D4AF37] select-none">✦</span>
         </div>
 
         {/* Subtitle / Celebratory Phrase */}
         <p className="mt-4 sm:mt-5 text-2xl sm:text-3xl md:text-4xl text-[#c5a869] font-serif italic tracking-wide">
-          {isBooked ? 'Congratulations!' : 'Now available for sale'}
+          Congratulations!
         </p>
 
-        {/* Optional Subtle Specification Line (Non-intrusive) */}
+        {/* Subtle Unit Specification Details (Non-intrusive) */}
         {unitDetails && (
           <div className="mt-6 sm:mt-8 flex items-center gap-4 sm:gap-6 text-xs sm:text-sm font-mono text-white/60 tracking-widest uppercase">
             <span>Floor {unitDetails.floor}</span>
@@ -219,3 +201,4 @@ export const AvailabilityOverlay: React.FC<AvailabilityOverlayProps> = ({
     </div>
   );
 };
+

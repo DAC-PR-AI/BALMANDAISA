@@ -49,17 +49,23 @@ export function useAvailability() {
         if (!isInitialFetch.current) {
           const detected = diffUnitAvailability(unitsRef.current, nextUnits);
           
-          if (detected.length > 0) {
-            setRecentChanges(prev => [...detected, ...prev].slice(0, 5));
+          // STRICT RULE: Full-screen celebration ONLY triggers for genuine AVAILABLE -> BOOKED transitions
+          // BOOKED -> AVAILABLE (and all other transitions) update state silently with NO popups.
+          const bookingCelebrations = detected.filter(
+            c => c.oldStatus === 'AVAILABLE' && c.newStatus === 'BOOKED'
+          );
+          
+          if (bookingCelebrations.length > 0) {
+            setRecentChanges(prev => [...bookingCelebrations, ...prev].slice(0, 5));
 
-            // Clear any existing dismiss timer and start a fresh 4.5-second countdown
+            // Clear any existing dismiss timer and start a fresh auto-dismiss countdown
             if (dismissTimerRef.current) {
               clearTimeout(dismissTimerRef.current);
             }
             dismissTimerRef.current = setTimeout(() => {
               setRecentChanges([]);
               dismissTimerRef.current = null;
-            }, 4500);
+            }, 3400);
           }
         } else {
           isInitialFetch.current = false;

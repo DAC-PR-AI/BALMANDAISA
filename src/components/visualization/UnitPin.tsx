@@ -62,7 +62,7 @@ export const UnitPin: React.FC<UnitPinProps> = ({
     >
       {/* Compact Architectural Tag (Floor Plan Visibility > Marker Size) */}
       <div
-        className={`relative flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-0.5 rounded font-mono text-[11px] md:text-[12px] font-bold tracking-tight transition-all duration-200 shadow-sm backdrop-blur-md overflow-hidden ${
+        className={`relative flex items-center gap-2 px-2.5 py-1 md:px-3 md:py-1 rounded-md font-mono text-[13px] md:text-[14px] lg:text-[15px] font-bold tracking-tight transition-all duration-200 shadow-sm backdrop-blur-md overflow-hidden ${
           isAvailable
             ? 'bg-[#241e12]/85 text-[#e5cb89] border border-[#c5a869]/80 unit-pin-available-live hover:bg-[#382f1d]/90 hover:border-[#d4af37] hover:scale-110'
             : isBooked
@@ -83,7 +83,7 @@ export const UnitPin: React.FC<UnitPinProps> = ({
 
         {/* Compact Status Pip */}
         <span
-          className={`w-1.5 h-1.5 rounded-full flex-shrink-0 relative z-10 ${
+          className={`w-2 h-2 rounded-full flex-shrink-0 relative z-10 ${
             isAvailable
               ? 'bg-[#c5a869] shadow-[0_0_6px_rgba(197,168,105,0.9)]'
               : isBooked
@@ -98,7 +98,7 @@ export const UnitPin: React.FC<UnitPinProps> = ({
         <span className="font-bold tracking-wider relative z-10">
           {unit.id}
           {isDuplexUpper && (
-            <span className="text-[8px] text-[#c5a869] ml-1 uppercase font-semibold">
+            <span className="text-[9px] md:text-[10px] text-[#c5a869] ml-1 uppercase font-semibold">
               DUPLEX
             </span>
           )}
@@ -107,22 +107,22 @@ export const UnitPin: React.FC<UnitPinProps> = ({
 
       {/* Viewport-Safe Collision-Free Tooltip */}
       <div
-        className={`absolute hidden group-hover:flex flex-col w-52 p-3 rounded-lg bg-[#060910]/98 border border-white/20 shadow-[0_15px_40px_rgba(0,0,0,0.95)] backdrop-blur-2xl z-50 pointer-events-none transition-all duration-200 ${tooltipClasses}`}
+        className={`absolute hidden group-hover:flex flex-col w-60 p-3.5 rounded-lg bg-[#060910]/98 border border-white/20 shadow-[0_15px_40px_rgba(0,0,0,0.95)] backdrop-blur-2xl z-50 pointer-events-none transition-all duration-200 ${tooltipClasses}`}
       >
         {/* Tooltip Header */}
-        <div className="flex items-center justify-between border-b border-white/15 pb-1 mb-1.5">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[#c5a869] font-serif font-bold text-sm tracking-wide">
+        <div className="flex items-center justify-between border-b border-white/15 pb-1.5 mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[#c5a869] font-serif font-bold text-base tracking-wide">
               Unit {unit.id}
             </span>
             {(unit.isDuplex || isDuplexUpper) && (
-              <span className="text-[8px] bg-[#c5a869]/20 text-[#c5a869] border border-[#c5a869]/40 px-1 py-0.2 rounded font-mono font-bold uppercase">
+              <span className="text-[9px] bg-[#c5a869]/20 text-[#c5a869] border border-[#c5a869]/40 px-1.5 py-0.5 rounded font-mono font-bold uppercase">
                 Duplex
               </span>
             )}
           </div>
           <span
-            className={`text-[8px] uppercase tracking-widest font-mono font-semibold px-1 py-0.5 rounded ${
+            className={`text-[9px] sm:text-[10px] uppercase tracking-widest font-mono font-semibold px-1.5 py-0.5 rounded ${
               isAvailable
                 ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
                 : isBooked

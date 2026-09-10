@@ -39,11 +39,11 @@ export const BrandHeader: React.FC<BrandHeaderProps> = ({
     >
       {/* Left: Understated Editorial Typography Mark (Hidden on Intro & Summary to prevent overlap) */}
       <div className={`flex items-center gap-4 transition-opacity duration-300 ${isIntroOrSummary ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <span className="text-xs font-mono font-medium tracking-[0.3em] text-white/70 uppercase">
+        <span className="text-sm md:text-base font-mono font-semibold tracking-[0.3em] text-white/90 uppercase">
           BALMANDAISA
         </span>
-        <span className="text-white/20">/</span>
-        <span className="text-[10px] tracking-[0.25em] text-[#c5a869] uppercase font-mono">
+        <span className="text-white/30 text-sm">/</span>
+        <span className="text-xs md:text-sm tracking-[0.25em] text-[#c5a869] uppercase font-mono font-medium">
           DAC DEVELOPERS
         </span>
       </div>
@@ -56,14 +56,14 @@ export const BrandHeader: React.FC<BrandHeaderProps> = ({
           <button
             onClick={onToggleFullscreen}
             title={isFullscreen ? 'Exit Fullscreen (F)' : 'Fullscreen (F)'}
-            className="p-1.5 text-white/40 hover:text-white transition-colors"
+            className="p-2 text-white/50 hover:text-white transition-colors"
           >
             {isFullscreen ? (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
             )}

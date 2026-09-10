@@ -30,46 +30,46 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
       {/* Top Editorial Header: Large Low-Contrast Floor Stamp & Discreet Status Line */}
       <div className="w-full flex items-baseline justify-between z-30 pointer-events-none">
         {/* Left: 05 FLOOR Editorial Typography */}
-        <div className="flex items-baseline gap-3">
-          <span className="text-5xl sm:text-6xl font-light font-mono tracking-tighter text-white/90">
+        <div className="flex items-baseline gap-3 sm:gap-4">
+          <span className="text-6xl sm:text-7xl lg:text-8xl font-light font-mono tracking-tighter text-white/95 leading-none">
             {formattedFloor}
           </span>
           <div className="flex flex-col">
-            <span className="text-[10px] tracking-[0.35em] text-[#c5a869] font-medium uppercase">
+            <span className="text-xs sm:text-sm tracking-[0.35em] text-[#c5a869] font-medium uppercase font-mono">
               Floor Plan
             </span>
-            <span className="text-[11px] tracking-[0.25em] text-white/40 uppercase">
+            <span className="text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase font-mono">
               {floor === 13 ? 'Penthouse & Duplex Level' : 'Residential Level'}
             </span>
           </div>
         </div>
 
         {/* Right: Discreet Unboxed Status Metrics */}
-        <div className="flex items-center gap-6 text-[11px] font-mono tracking-wider">
-          <div className="flex items-baseline gap-2">
-            <span className="text-white/40 uppercase tracking-widest text-[9px]">Available</span>
-            <span className="text-[#c5a869] font-semibold text-sm">
+        <div className="flex items-center gap-6 sm:gap-8 text-xs sm:text-sm font-mono tracking-wider">
+          <div className="flex items-baseline gap-2 sm:gap-2.5">
+            <span className="text-white/50 uppercase tracking-widest text-[10px] sm:text-xs font-sans">Available</span>
+            <span className="text-[#c5a869] font-bold text-lg sm:text-xl md:text-2xl">
               <AnimatedCounter value={summary.available} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-white/40 uppercase tracking-widest text-[9px]">Booked</span>
-            <span className="text-[#be185d] font-semibold text-sm">
+          <span className="text-white/20">/</span>
+          <div className="flex items-baseline gap-2 sm:gap-2.5">
+            <span className="text-white/50 uppercase tracking-widest text-[10px] sm:text-xs font-sans">Booked</span>
+            <span className="text-[#be185d] font-bold text-lg sm:text-xl md:text-2xl">
               <AnimatedCounter value={summary.booked} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-white/40 uppercase tracking-widest text-[9px]">Blocked</span>
-            <span className="text-[#c58a2f] font-semibold text-sm">
+          <span className="text-white/20">/</span>
+          <div className="flex items-baseline gap-2 sm:gap-2.5">
+            <span className="text-white/50 uppercase tracking-widest text-[10px] sm:text-xs font-sans">Blocked</span>
+            <span className="text-[#c58a2f] font-bold text-lg sm:text-xl md:text-2xl">
               <AnimatedCounter value={summary.blocked} />
             </span>
           </div>
-          <span className="text-white/15">/</span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-white/40 uppercase tracking-widest text-[9px]">Total</span>
-            <span className="text-white/80 font-medium text-sm">
+          <span className="text-white/20">/</span>
+          <div className="flex items-baseline gap-2 sm:gap-2.5">
+            <span className="text-white/50 uppercase tracking-widest text-[10px] sm:text-xs font-sans">Total</span>
+            <span className="text-white font-bold text-lg sm:text-xl md:text-2xl">
               {summary.total}
             </span>
           </div>
@@ -90,13 +90,13 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
       {/* Discreet Bottom Unit Detail Strip (Only when unit is clicked) */}
       {selectedUnit ? (
         <div className="w-full flex items-center justify-between border-t border-white/10 pt-3 z-30 animate-in fade-in duration-300">
-          <div className="flex items-center gap-6">
-            <div className="flex items-baseline gap-2">
-              <span className="text-xs text-[#c5a869] font-medium tracking-widest uppercase">
+          <div className="flex items-center gap-6 sm:gap-8">
+            <div className="flex items-baseline gap-2.5">
+              <span className="text-sm sm:text-base text-[#c5a869] font-bold tracking-widest uppercase font-mono">
                 UNIT {selectedUnit.id}
               </span>
               <span
-                className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold uppercase tracking-wider border ${
+                className={`text-[10px] sm:text-xs px-2 py-0.5 rounded font-mono font-bold uppercase tracking-wider border ${
                   selectedUnit.status === 'AVAILABLE'
                     ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50'
                     : selectedUnit.status === 'BOOKED'
@@ -111,27 +111,27 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
                 {selectedUnit.status.replace(/_/g, ' ')}
               </span>
               {selectedUnit.isDuplex && (
-                <span className="text-[9px] uppercase tracking-widest text-white/60 font-mono">
+                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-[#c5a869] font-mono font-semibold">
                   (Duplex)
                 </span>
               )}
             </div>
             <span className="text-white/20">|</span>
-            <span className="text-xs text-white/80 tracking-wide">
+            <span className="text-sm sm:text-base text-white/90 tracking-wide font-sans">
               {selectedUnit.type}
             </span>
             <span className="text-white/20">|</span>
-            <span className="text-xs text-white/80 tracking-wide">
+            <span className="text-sm sm:text-base text-white/90 tracking-wide font-sans">
               Facing {selectedUnit.facing}
             </span>
             <span className="text-white/20">|</span>
-            <span className="text-xs text-white/90 font-mono">
+            <span className="text-sm sm:text-base text-white/95 font-mono font-medium">
               {selectedUnit.sizeLabel || `${selectedUnit.builtup} SQ.FT`}
             </span>
             {selectedUnit.totalCost > 0 && (
               <>
                 <span className="text-white/20">|</span>
-                <span className="text-xs text-emerald-400 font-mono font-medium">
+                <span className="text-sm sm:text-base text-emerald-400 font-mono font-bold">
                   ₹{(selectedUnit.totalCost / 10000000).toFixed(2)} Cr
                 </span>
               </>
@@ -139,14 +139,14 @@ export const FloorPresentation: React.FC<FloorPresentationProps> = ({
           </div>
           <button
             onClick={() => setSelectedUnit(null)}
-            className="text-[10px] uppercase tracking-widest text-white/40 hover:text-white"
+            className="text-xs sm:text-sm uppercase tracking-widest text-white/50 hover:text-white font-mono px-2 py-1 rounded bg-white/5 hover:bg-white/10"
           >
             Close ×
           </button>
         </div>
       ) : (
         /* Subtle architectural footer hint */
-        <div className="w-full flex items-center justify-between text-[10px] text-white/30 tracking-[0.25em] uppercase border-t border-white/5 pt-2">
+        <div className="w-full flex items-center justify-between text-xs sm:text-sm text-white/40 tracking-[0.25em] uppercase border-t border-white/10 pt-2 font-mono">
           <span>BALMANDAISA  ·  LEVEL {formattedFloor}</span>
           <span>AUTOPLAYING PRESENTATION</span>
         </div>

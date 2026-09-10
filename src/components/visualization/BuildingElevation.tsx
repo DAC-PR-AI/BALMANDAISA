@@ -57,45 +57,45 @@ export const BuildingElevation: React.FC<BuildingElevationProps> = ({
       {/* Top Editorial Typography */}
       <div className="w-full flex items-start justify-between z-30 pointer-events-none">
         <div className="flex flex-col">
-          <span className="text-[10px] tracking-[0.4em] text-[#c5a869] font-medium uppercase">
+          <span className="text-xs sm:text-sm tracking-[0.4em] text-[#c5a869] font-medium uppercase font-mono">
             ARCHITECTURAL ELEVATION
           </span>
-          <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white/90">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-white/95 mt-0.5">
             Thirteen-Storey Residence
           </h2>
-          <span className="text-[9px] tracking-[0.25em] text-white/40 uppercase mt-1 font-mono">
+          <span className="text-[10px] sm:text-xs tracking-[0.25em] text-white/50 uppercase mt-1 font-mono">
             MODERN LIVING / REFINED SPACES / ELEVATED LIFESTYLE
           </span>
         </div>
 
         <div className="flex flex-col items-end gap-2.5 pointer-events-auto">
-          <div className="flex items-center gap-6 text-[11px] font-mono tracking-widest text-white/40 uppercase">
+          <div className="flex items-center gap-6 text-xs sm:text-sm font-mono tracking-widest text-white/50 uppercase">
             <span>B + G + 13 RESIDENTIAL LEVELS</span>
             <span>·</span>
             <span>194 SIGNATURE RESIDENCES</span>
           </div>
 
           {/* Canonical 5 Availability Splits from Google Sheet */}
-          <div className="flex items-center gap-3 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shadow-lg">
+          <div className="flex items-center gap-3.5 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 shadow-xl">
             {AVAILABILITY_SPLITS.map(split => {
               const count = statsSummary[split.statKey] ?? 0;
               return (
                 <div
                   key={split.key}
-                  className="flex items-center gap-1.5 text-[10px] font-mono"
+                  className="flex items-center gap-2 text-xs sm:text-sm font-mono"
                   title={`${split.sheetName}: ${count} Residences`}
                 >
                   <span
-                    className="w-2 h-2 rounded-full shrink-0"
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
                     style={{
                       backgroundColor: split.color,
-                      boxShadow: `0 0 6px ${split.color}`,
+                      boxShadow: `0 0 8px ${split.color}`,
                     }}
                   />
-                  <span className="text-white/60 tracking-wider uppercase font-sans text-[9px]">
+                  <span className="text-white/70 tracking-wider uppercase font-sans text-[10px] sm:text-xs">
                     {split.sheetName}
                   </span>
-                  <span className="font-semibold text-white/90 ml-0.5">
+                  <span className="font-bold text-white ml-0.5">
                     ({count})
                   </span>
                 </div>
@@ -156,23 +156,23 @@ export const BuildingElevation: React.FC<BuildingElevationProps> = ({
                   title={term.display}
                 >
                   <div
-                    className={`relative flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider transition-all duration-300 backdrop-blur-md ${
+                    className={`relative flex items-center gap-2 px-2.5 py-1 rounded-md text-xs sm:text-sm font-mono tracking-wider transition-all duration-300 backdrop-blur-md ${
                       isSelected
-                        ? 'bg-[#c5a869] text-black font-semibold shadow-[0_0_15px_rgba(197,168,105,0.7)] scale-110 z-40'
-                        : `bg-black/75 border ${statusBorder} hover:scale-110`
+                        ? 'bg-[#c5a869] text-black font-bold shadow-[0_0_18px_rgba(197,168,105,0.85)] scale-110 z-40'
+                        : `bg-black/80 border ${statusBorder} hover:scale-110 font-medium`
                     }`}
                   >
                     <span>{term.short}</span>
-                    <span className="text-[9px] opacity-75">
+                    <span className="text-[10px] sm:text-xs opacity-80">
                       ({stats.available} Avail)
                     </span>
 
                     {/* Popover on hover with exact 5 categories and full floor display */}
-                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 hidden group-hover:flex flex-col gap-1 px-3 py-2 rounded-md bg-[#0a0d14]/95 border border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.9)] backdrop-blur-md z-50 whitespace-nowrap pointer-events-none">
-                      <span className="text-[11px] font-sans font-medium text-white tracking-wide border-b border-white/10 pb-1">
+                    <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 hidden group-hover:flex flex-col gap-1.5 px-4 py-2.5 rounded-lg bg-[#0a0d14]/98 border border-white/20 shadow-[0_12px_36px_rgba(0,0,0,0.95)] backdrop-blur-xl z-50 whitespace-nowrap pointer-events-none">
+                      <span className="text-xs sm:text-sm font-sans font-bold text-white tracking-wide border-b border-white/15 pb-1">
                         {term.display}
                       </span>
-                      <div className="flex items-center gap-3 pt-0.5 text-[9px] font-mono">
+                      <div className="flex items-center gap-3.5 pt-1 text-[11px] sm:text-xs font-mono font-medium">
                         <span className="text-emerald-400">
                           {stats.available} Avail
                         </span>
@@ -199,7 +199,7 @@ export const BuildingElevation: React.FC<BuildingElevationProps> = ({
       </div>
 
       {/* Bottom Minimal Info Bar */}
-      <div className="w-full flex items-center justify-between text-[10px] text-white/30 tracking-[0.25em] uppercase border-t border-white/5 pt-2 z-30">
+      <div className="w-full flex items-center justify-between text-xs sm:text-sm text-white/40 tracking-[0.25em] uppercase border-t border-white/10 pt-2 z-30 font-mono">
         <span>BALMANDAISA  ·  ARCHITECTURAL ELEVATION</span>
         <span>SELECT ANY RESIDENTIAL LEVEL TO VIEW BLUEPRINT</span>
       </div>
